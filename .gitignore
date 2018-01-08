@@ -1,0 +1,5 @@
+.idea/*
+/vendor/
+/logs/*
+/node_modules/
+!/logs/README.md
