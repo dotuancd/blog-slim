@@ -19,6 +19,6 @@ export default {
             });
     },
     isOwnedBy(post, user) {
-        return post.user_id == user.id;
+        return user && (post.user_id == user.id);
     }
 }
