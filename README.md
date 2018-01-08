@@ -1,18 +1,21 @@
-# Slim Framework 3 Skeleton Application
+# What is this?
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
+This is a personal blog. I have written just to start a new habit follow the challenge #100DaysOfCode
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+# Which are technologies were used
 
-## Install the Application
+Front-end:
+- Vuejs
+- Bootstrap 3
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+Backend:
+- Slim Framework
+- Illuminate packages (database, events, console, config)
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+# How to installing?
 
 * Point your virtual host document root to your new application's `public/` directory.
+* Edit your config in `config` directory.
 * Ensure `logs/` is web writeable.
 
 To run the application in development, you can also run this command. 
@@ -23,4 +26,15 @@ Run this command to run the test suite
 
 	php composer.phar test
 
-That's it! Now go build something cool.
+Run this command to install the dependency packages
+
+    php composer.phar install
+    
+Run this command to install the front end dependencies
+
+    npm install
+
+Run this command to build the front end package.
+
+    npm run build
+
