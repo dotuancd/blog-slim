@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="container-fluid">
+        <navigation></navigation>
         <div v-for="post in posts">
             <router-link :to="{name: 'post.show', params: {post: post.id}}">
                 <h2>{{post.title}}</h2>
@@ -8,8 +9,8 @@
     </div>
 </template>
 <script>
-    import axios from "axios"
     import post from "../models/post.js"
+    import navigation from "./layout/navigation"
 
     export default{
         created() {
@@ -25,6 +26,7 @@
             }
         },
         components:{
+            navigation
         }
     }
 </script>

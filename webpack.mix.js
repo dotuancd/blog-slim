@@ -14,6 +14,14 @@ const { mix } = require('laravel-mix');
 mix.config.publicPath = 'public';
 
 mix.js('resources/assets/js/app.js', 'public/js');
+
+
+mix.sass('resources/assets/sass/app.scss', 'public/css/app.css')
+    .styles([
+        'node_modules/simplemde/dist/simplemde.min.css',
+        'public/css/app.css',
+    ], 'public/css/all.css');
+
 //    .sass('resources/assets/sass/app.scss', 'public/css/app.css')
 //     .styles([
 //         'node_modules/simplemde/dist/simplemde.min.css',
