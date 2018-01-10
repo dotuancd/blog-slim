@@ -7,7 +7,7 @@ import Login from './components/auth/login.vue';
 import auth from './middlewares/auth';
 
 let routes = [
-    {path: '/', name: 'index', component: Index},
+    {path: '/', name: 'index', component: Index, meta: {title: 'Boom\'s blog'}},
     {path: '/posts', name: 'posts.index', component: Posts},
     {path: '/posts/create', name: 'posts.create', component: CreatePost, beforeEnter: auth},
     {path: '/posts/:post', name: 'post.show', component: SinglePost},

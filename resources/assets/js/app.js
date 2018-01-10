@@ -31,6 +31,11 @@ const router = new VueRouter({
     routes
 });
 
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title || 'Boom\'s blog'
+    next()
+});
+
 const app = new Vue({
-    router: router
+    router: router,
 }).$mount('#app');

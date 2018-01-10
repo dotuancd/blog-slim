@@ -34,11 +34,12 @@
         },
         methods: {
             fetchPost () {
-                post
+                return post
                 .get(this.$route.params.post)
                 .then(({data}) => {
                     this.post = data
                     this.post.content = marked(data.content)
+                    document.title = data.title;
                     this.editable = post.isOwnedBy(this.post, this.user)
                 })
             }
