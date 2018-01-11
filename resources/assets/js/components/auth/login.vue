@@ -1,25 +1,45 @@
 <template>
-    <div>
-        <h1>Sign in</h1>
-        <form>
-            <div class="alert alert-danger" v-if="error" v-text="error"></div>
-            <div class="alert alert-success" v-if="success" v-text="success"></div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" v-model="credentials.email" id="email">
+    <div class="container">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="well bs-component">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend>Sign in</legend>
+                        <div class="alert alert-danger" v-if="error" v-text="error"></div>
+                        <div class="alert alert-success" v-if="success" v-text="success"></div>
+                        <div class="form-group">
+                            <label for="email" class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input type="email" class="form-control" v-model="credentials.email" id="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-lg-2 control-label">Password</label>
+                            <div class="col-lg-10">
+                                <input type="password" class="form-control" v-model="credentials.password" id="password">
+                                <div class="checkbox">
+                                    <label for="remember">
+                                        <input type="checkbox" name="remember" id="remember"> Remember me in this computer
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="button" @click="login" class="btn btn-success" v-bind:class="{disabled: authenticating}">Login</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" v-model="credentials.password" id="password">
-            </div>
-            <div class="form-group">
-                <button type="button" @click="login" class="btn btn-success" v-bind:class="{disabled: authenticating}">Login</button>
-            </div>
-        </form>
+        </div>
     </div>
 </template>
 <script>
     export default {
+        mounted() {
+           document.title = 'Sign In'
+        },
         data() {
             return {
                 authenticating: false,

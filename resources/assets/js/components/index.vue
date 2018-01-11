@@ -1,10 +1,9 @@
 <template>
-    <div class="container-fluid">
-        <navigation></navigation>
+    <div class="container">
         <div v-for="post in posts">
-            <router-link :to="{name: 'post.show', params: {post: post.id}}">
-                <h2>{{post.title}}</h2>
-            </router-link>
+            <h2>
+                # <router-link :to="{name: 'post.show', params: {post: post.id}}">{{post.title}}</router-link>
+            </h2>
         </div>
     </div>
 </template>
@@ -12,7 +11,7 @@
     import post from "../models/post.js"
     import navigation from "./layout/navigation"
 
-    export default{
+    export default {
         created() {
             let page = this.$route.query.page || 1;
             post.paginate(page).then(({data}) => this.posts = data.data)

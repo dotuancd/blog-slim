@@ -1,12 +1,14 @@
 <template>
-    <div>
+    <div class="container">
         <router-link class="btn btn-success pull-right" :to="{name: 'posts.create'}">
             <span class="glyphicon glyphicon-plus"></span> New
         </router-link>
-        <table>
+        <table class="table table-striped">
             <thead>
-                <th>Title</th>
-                <th>Action</th>
+                <tr>
+                    <th>Title</th>
+                    <th>Action</th>
+                </tr>
             </thead>
             <tbody>
                 <tr v-for="post in posts">
@@ -16,10 +18,10 @@
                         </router-link>
                     </td>
                     <td>
-                        <router-link class="btn" :to="{name: 'post.edit', params: {post: post.id}}">
+                        <router-link class="btn btn-link" :to="{name: 'post.edit', params: {post: post.id}}">
                             <span class="glyphicon glyphicon-edit"></span> Edit
                         </router-link>
-                        <router-link class="btn" :to="{name: 'post.edit', params: {post: post.id}}">
+                        <router-link class="btn btn-link" :to="{name: 'post.edit', params: {post: post.id}}">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </router-link>
                     </td>

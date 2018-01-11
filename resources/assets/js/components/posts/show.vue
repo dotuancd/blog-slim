@@ -1,19 +1,27 @@
 <template>
-    <div>
-        <router-link v-if="editable" :to="{ name: 'post.edit', params: { post: post.id}}" class="btn btn-success pull-right">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-        </router-link>
+    <div class="container">
+        <div class="text-right">
+            <router-link v-if="editable" :to="{ name: 'post.edit', params: { post: post.id}}" class="btn btn-link text-right">
+                <span class="glyphicon glyphicon-edit"></span> Edit
+            </router-link>
+        </div>
         <article>
-            <h1 style="color: lime">{{post.title}}</h1>
+            <h1 class="text-warning">{{post.title}}</h1>
             <div class="pull-right">{{post.author}} published at {{post.created_at}}</div>
             <p v-html="post.content">
             </p>
-            <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.id}}">
-                Older: {{post.next.title}}
-            </router-link>
-            <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.id}}">
-                Older: {{post.prev.title}}
-            </router-link>
+            <div class="col-lg-12">
+                <div class="col-lg-6 text-left">
+                    <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.id}}">
+                        Older: {{post.next.title}}
+                    </router-link>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.id}}">
+                        Older: {{post.prev.title}}
+                    </router-link>
+                </div>
+            </div>
         </article>
     </div>
 </template>

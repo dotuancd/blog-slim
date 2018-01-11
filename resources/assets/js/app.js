@@ -11,6 +11,9 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Session from './support/session';
+import navigation from './components/layout/navigation'
+
+Vue.component('navigation', navigation)
 
 Vue.use(VueRouter);
 Vue.use(Session, {storage: sessionStorage});
@@ -32,7 +35,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    document.title = to.meta.title || 'Boom\'s blog'
+    document.title = to.meta.title || 'Loading...'
     next()
 });
 

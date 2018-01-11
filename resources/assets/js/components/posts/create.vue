@@ -26,6 +26,7 @@
 
     export default{
         mounted() {
+            document.title = 'New post'
             this.editor = new SimpleMDE({
                 spellChecker: false
             });
@@ -50,6 +51,7 @@
                     .store(this.post)
                     .then(() => {
                         this.saving = false;
+                        this.$router.push({name: 'posts.index'});
                     });
             }
         }
