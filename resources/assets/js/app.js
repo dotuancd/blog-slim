@@ -11,12 +11,15 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Session from './support/session';
+import Flash from './support/flash'
+
 import navigation from './components/layout/navigation'
 
 Vue.component('navigation', navigation)
 
 Vue.use(VueRouter);
 Vue.use(Session, {storage: sessionStorage});
+Vue.use(Flash)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

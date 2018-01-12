@@ -1,8 +1,12 @@
 <template>
     <div class="container">
-        <router-link class="btn btn-success pull-right" :to="{name: 'posts.create'}">
-            <span class="glyphicon glyphicon-plus"></span> New
-        </router-link>
+        <div v-if="!$flash.isEmpty('success')" class="alert alert-success" v-html="$flash.last('success')">
+        </div>
+        <div class="row">
+            <router-link class="btn btn-success pull-right" :to="{name: 'posts.create'}">
+                <span class="glyphicon glyphicon-plus"></span> New
+            </router-link>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -18,6 +22,9 @@
                         </router-link>
                     </td>
                     <td>
+                        <router-link class="btn btn-link" :to="{name: 'post.show', params: {post: post.id}}">
+                            <span class="glyphicon glyphicon-eye-open"></span> View
+                        </router-link>
                         <router-link class="btn btn-link" :to="{name: 'post.edit', params: {post: post.id}}">
                             <span class="glyphicon glyphicon-edit"></span> Edit
                         </router-link>
@@ -38,6 +45,7 @@
         created() {
             let page = this.$route.query.page || 1;
             post.paginate(page).then(({data}) => this.posts = data.data)
+            console.log(this.$flash);
         },
         mounted() {
             console.log('Component mounted');

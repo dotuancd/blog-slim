@@ -13,7 +13,7 @@
                 <button type="button" class="btn btn-success" @click="update" v-bind:class="{disabled: saving}">
                     Save <span class="glyphicon glyphicon-send"></span>
                 </button>
-                <router-link :to="{name: 'post.index'}" class="btn btn-link">Cancel</router-link>
+                <router-link :to="{name: 'posts.index'}" class="btn btn-link">Cancel</router-link>
             </div>
         </form>
     </div>
@@ -56,6 +56,8 @@
                 .update(this.post)
                 .then(() => {
                     this.saving = false;
+                    this.$router.push({name: 'posts.index'})
+                    this.$flash.success('Your update has been saved.')
                 });
             }
         }
