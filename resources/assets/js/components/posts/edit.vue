@@ -57,7 +57,7 @@
                 .then(() => {
                     this.saving = false;
                     this.$router.push({name: 'posts.index'})
-                    this.$flash.success('Your update has been saved.')
+                    this.$flash.success('Your update has been saved')
                 });
             }
         }

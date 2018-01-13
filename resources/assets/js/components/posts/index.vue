@@ -1,8 +1,7 @@
 <template>
     <div class="container">
-        <div v-if="!$flash.isEmpty('success')" class="alert alert-success" v-html="$flash.last('success')">
-        </div>
-        <div class="row">
+        <flash bag="success" class="alert alert-success" dismissible></flash>
+        <div class="row container">
             <router-link class="btn btn-success pull-right" :to="{name: 'posts.create'}">
                 <span class="glyphicon glyphicon-plus"></span> New
             </router-link>
@@ -17,7 +16,7 @@
             <tbody>
                 <tr v-for="post in posts">
                     <td>
-                        <router-link :to="{name: 'post.show', params: {post: post.id}}">
+                        <router-link :to="{name: 'post.edit', params: {post: post.id}}">
                             {{post.title}}
                         </router-link>
                     </td>
@@ -45,10 +44,9 @@
         created() {
             let page = this.$route.query.page || 1;
             post.paginate(page).then(({data}) => this.posts = data.data)
-            console.log(this.$flash);
+            document.title = 'Post management'
         },
         mounted() {
-            console.log('Component mounted');
         },
         data(){
             return{

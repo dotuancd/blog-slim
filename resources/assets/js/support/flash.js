@@ -30,6 +30,7 @@ class Flash
     constructor() {
         this.flush()
     }
+    // reset messages
     flush() {
         this.messages = {
             info: new MessageBag(),
@@ -42,9 +43,11 @@ class Flash
     add(message, bag) {
         bag = bag || 'default';
 
-        if (this.messages[bag]) {
-            this.messages[bag].add(message);
+        if (!this.messages[bag]) {
+            this.messages[bag] = new MessageBag()
         }
+
+        this.messages[bag].add(message);
     }
     info(message) {
         this.add(message, 'info')
@@ -58,30 +61,43 @@ class Flash
         this.add(message, 'error')
     }
 
-    first(bag) {
-        bag = bag || 'default'
-        return this.messages[bag].first();
+    get(key) {
+        key = key || 'default'
+        if (this.has(key)) {
+            return this.messages[key]
+        }
     }
 
-    last(bag) {
-        bag = bag || 'default'
-        return this.messages[bag].last();
+    has(key) {
+        console.log(`has: ${key}`);
+        console.log(!this.messages[key].isEmpty());
+        return this.messages[key] && !this.messages[key].isEmpty()
     }
 
-    isEmpty(bag) {
-        bag = bag || 'default'
-        return this.messages[bag].isEmpty()
+    any() {
+        for (let key in this.messages) {
+            if (!this.messages[key].isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    all(bag) {
-        bag = bag || 'default'
-        return this.messages[bag].all();
+    all() {
+        let messages =  this.messages;
+        this.flush();
+        return messages;
     }
 }
 
+import FlashComponent from './flash-component'
+
 export default {
     install(Vue) {
+
         let flash = new Flash();
         Vue.$flash = Vue.prototype.$flash = flash;
+        Vue.component('flash', FlashComponent)
     }
 }

@@ -13,12 +13,12 @@
             <div class="col-lg-12">
                 <div class="col-lg-6 text-left">
                     <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.id}}">
-                        Older: {{post.next.title}}
+                        Next post: {{post.next.title}}
                     </router-link>
                 </div>
                 <div class="col-lg-6 text-right">
                     <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.id}}">
-                        Older: {{post.prev.title}}
+                        Previous post: {{post.prev.title}}
                     </router-link>
                 </div>
             </div>
