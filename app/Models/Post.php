@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $appends = [
-        'url',
         'author'
     ];
 
@@ -17,22 +16,42 @@ class Post extends Model
         'user_id',
     ];
 
+    protected $hidden = [
+        'user',
+        'user_id',
+    ];
+
     protected static function boot()
     {
         parent::boot();
-//        static::creating(function ($post) {
-//            $post->generateSlug();
-//        });
+        static::saving(function ($post) {
+            $post->updateSlugIfTitleCharged();
+        });
     }
 
+    public function updateSlugIfTitleCharged()
+    {
+        if ($this->isDirty('title')) {
+            $this->slug = $this->generateSlug();
+        }
+    }
+    
     public function generateSlug()
     {
-        $this->slug = str_slug($this->title);
-    }
+        $tried = 0;
+        $base = str_slug($this->title);
+        do {
+            $query = $this->newQuery();
 
-    public function getUrlAttribute()
-    {
-        
+            // append counter if slug is already exists.
+            $appending = $tried ? '-' . $tried: '';
+            $slug = $base . $appending;
+
+            // increment counter
+            $tried++;
+            $query->where('slug', $slug);
+        } while ($query->exists());
+        return $slug;
     }
 
     public function getAuthorAttribute()
@@ -48,5 +67,10 @@ class Post extends Model
     public function isOwnedBy(User $user)
     {
         return ($this->user_id == $user->id);
+    }
+
+    public static function findBySlug($slug)
+    {
+        return static::where('slug', $slug)->firstOrFail();
     }
 }

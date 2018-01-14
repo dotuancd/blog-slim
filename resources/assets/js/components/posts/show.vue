@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="text-right">
-            <router-link v-if="editable" :to="{ name: 'post.edit', params: { post: post.id}}" class="btn btn-link text-right">
+            <router-link v-if="editable" :to="{ name: 'post.edit', params: { post: post.slug}}" class="btn btn-link text-right">
                 <span class="glyphicon glyphicon-edit"></span> Edit
             </router-link>
         </div>
@@ -12,13 +12,13 @@
             </p>
             <div class="col-lg-12">
                 <div class="col-lg-6 text-left">
-                    <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.id}}">
-                        Next post: {{post.next.title}}
+                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.slug}}">
+                       << Previous post: {{post.prev.title}}
                     </router-link>
                 </div>
                 <div class="col-lg-6 text-right">
-                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.id}}">
-                        Previous post: {{post.prev.title}}
+                    <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.slug}}">
+                       >> Next post: {{post.next.title}}
                     </router-link>
                 </div>
             </div>

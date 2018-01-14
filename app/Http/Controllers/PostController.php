@@ -15,25 +15,27 @@ class PostController extends Controller
 {
     public function index(Request $request, Response $response)
     {
-        return $response->withJson(Post::paginate());
+        return $response->withJson(Post::latest()->paginate());
     }
 
     public function show(Request $request, Response $response)
     {
-        $post = Post::findOrFail($request->getAttribute('post'));
+        $post = Post::findBySlug($request->getAttribute('post'));
         $post->user;
-        $nextPost = Post::where('id', '>', $post->id)->first();
-        $prevPost = Post::where('id', '<', $post->id)->first();
+        $nextPost = Post::where('id', '>', $post->id)->oldest()->first();
+        $prevPost = Post::where('id', '<', $post->id)->latest()->first();
         if ($nextPost) {
             $post->next = [
                 'id' => $nextPost->id,
                 'title' => $nextPost->title,
+                'slug' => $nextPost->slug,
             ];
         }
         if ($prevPost) {
             $post->prev = [
                 'id' => $prevPost->id,
                 'title' => $prevPost->title,
+                'slug' => $prevPost->slug,
             ];
         }
         return $response->withJson($post);

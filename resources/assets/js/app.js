@@ -12,8 +12,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Session from './support/session';
 import Flash from './support/flash'
+import ErrorHandler from './support/error-handler'
 
 import navigation from './components/layout/navigation'
+
 
 Vue.component('navigation', navigation)
 
@@ -36,6 +38,10 @@ const router = new VueRouter({
     // mode: "history",
     routes
 });
+
+Vue.use(ErrorHandler, {
+    router: router
+})
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title || 'Loading...'
