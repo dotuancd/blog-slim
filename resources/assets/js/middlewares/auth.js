@@ -1,10 +1,11 @@
 import Vue from 'vue';
 
 export default (to, from, next) => {
-    if (!Vue.Session.has('user')) {
-        return next('/login');
+    if (!Vue.$session.has('user')) {
+        Vue.$flash.info('Sign in to continue to admin area');
+        return next('/admin');
     }
-    let user = Vue.Session.get('user');
+    let user = Vue.$session.get('user');
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
-    next();
+    return next();
 }

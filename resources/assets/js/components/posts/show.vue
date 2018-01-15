@@ -7,9 +7,17 @@
         </div>
         <article>
             <h1 class="text-warning">{{post.title}}</h1>
-            <div class="pull-right">{{post.author}} published at {{post.created_at}}</div>
-            <p v-html="post.content">
-            </p>
+            <!-- <author> -->
+            <div class="pull-right">
+                {{post.author}} published at {{post.created_at}}
+            </div>
+            <div class="clearfix"></div>
+            <!-- </author> -->
+
+            <!-- <content> -->
+            <div v-html="post.content">
+            </div>
+            <!-- </content> -->
             <div class="col-lg-12">
                 <div class="col-lg-6 text-left">
                     <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.slug}}">

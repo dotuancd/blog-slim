@@ -41525,45 +41525,43 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Session = {};
+var Session = function () {
+    function Session(storage) {
+        _classCallCheck(this, Session);
 
-Session.install = function (Vue, options) {
-    var Session = function () {
-        function Session(storage) {
-            _classCallCheck(this, Session);
+        this.storage = storage;
+    }
 
-            this.storage = storage;
+    _createClass(Session, [{
+        key: "set",
+        value: function set(key, value) {
+            this.storage.setItem(key, value);
         }
-
-        _createClass(Session, [{
-            key: "set",
-            value: function set(key, value) {
-                this.storage.setItem(key, value);
+    }, {
+        key: "get",
+        value: function get(key) {
+            var value = this.storage.getItem(key);
+            try {
+                return JSON.parse(value);
+            } catch (e) {
+                return value;
             }
-        }, {
-            key: "get",
-            value: function get(key) {
-                var value = this.storage.getItem(key);
-                try {
-                    return JSON.parse(value);
-                } catch (e) {
-                    return value;
-                }
-            }
-        }, {
-            key: "has",
-            value: function has(key) {
-                return this.storage.hasOwnProperty(key);
-            }
-        }]);
+        }
+    }, {
+        key: "has",
+        value: function has(key) {
+            return this.storage.hasOwnProperty(key);
+        }
+    }]);
 
-        return Session;
-    }();
+    return Session;
+}();
 
-    Vue.Session = Vue.prototype.$session = new Session(options.storage);
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Session);
+/* harmony default export */ __webpack_exports__["a"] = ({
+    install: function install(Vue, options) {
+        Vue.$session = Vue.prototype.$session = new Session(options.storage);
+    }
+});
 
 /***/ }),
 /* 45 */
@@ -42311,8 +42309,9 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_errors_page_not_found_vue__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_errors_page_not_found_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_errors_page_not_found_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__middlewares_redirect_if_authorized__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue__);
 
 
 
@@ -42322,7 +42321,9 @@ if (false) {
 
 
 
-var routes = [{ path: '/', name: 'index', component: __WEBPACK_IMPORTED_MODULE_0__components_index_vue___default.a, meta: { title: 'Boom\'s blog' } }, { path: '/posts', name: 'posts.index', component: __WEBPACK_IMPORTED_MODULE_1__components_posts_index_vue___default.a }, { path: '/posts/create', name: 'posts.create', component: __WEBPACK_IMPORTED_MODULE_3__components_posts_create_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/:post', name: 'post.show', component: __WEBPACK_IMPORTED_MODULE_2__components_posts_show_vue___default.a }, { path: '/posts/:post/edit', name: 'post.edit', component: __WEBPACK_IMPORTED_MODULE_4__components_posts_edit_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/login', component: __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue___default.a }, { path: '/404', component: __WEBPACK_IMPORTED_MODULE_7__components_errors_page_not_found_vue___default.a, name: 'errors.404' }];
+
+
+var routes = [{ path: '/', name: 'index', component: __WEBPACK_IMPORTED_MODULE_0__components_index_vue___default.a, meta: { title: 'Boom\'s blog' } }, { path: '/posts', name: 'posts.index', component: __WEBPACK_IMPORTED_MODULE_1__components_posts_index_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/create', name: 'posts.create', component: __WEBPACK_IMPORTED_MODULE_3__components_posts_create_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/:post', name: 'post.show', component: __WEBPACK_IMPORTED_MODULE_2__components_posts_show_vue___default.a }, { path: '/posts/:post/edit', name: 'post.edit', component: __WEBPACK_IMPORTED_MODULE_4__components_posts_edit_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/admin', component: __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_7__middlewares_redirect_if_authorized__["a" /* default */] }, { path: '/404', component: __WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue___default.a, name: 'errors.404' }];
 
 
 
@@ -42713,6 +42714,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -42784,7 +42793,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "text-warning"
   }, [_vm._v(_vm._s(_vm.post.title))]), _vm._v(" "), _c('div', {
     staticClass: "pull-right"
-  }, [_vm._v(_vm._s(_vm.post.author) + " published at " + _vm._s(_vm.post.created_at))]), _vm._v(" "), _c('p', {
+  }, [_vm._v("\n            " + _vm._s(_vm.post.author) + " published at " + _vm._s(_vm.post.created_at) + "\n        ")]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  }), _vm._v(" "), _c('div', {
     domProps: {
       "innerHTML": _vm._s(_vm.post.content)
     }
@@ -47280,12 +47291,13 @@ if (false) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (to, from, next) {
-    if (!__WEBPACK_IMPORTED_MODULE_0_vue___default.a.Session.has('user')) {
-        return next('/login');
+    if (!__WEBPACK_IMPORTED_MODULE_0_vue___default.a.$session.has('user')) {
+        __WEBPACK_IMPORTED_MODULE_0_vue___default.a.$flash.info('Sign in to continue to admin area');
+        return next('/admin');
     }
-    var user = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.Session.get('user');
+    var user = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.$session.get('user');
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
-    next();
+    return next();
 });
 
 /***/ }),
@@ -47374,6 +47386,32 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (function (to, from, next) {
+    if (__WEBPACK_IMPORTED_MODULE_0_vue___default.a.$session.has('user')) {
+        return next('/');
+    }
+
+    return next();
+});
 
 /***/ })
 /******/ ]);
