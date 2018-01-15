@@ -73,4 +73,9 @@ class Post extends Model
     {
         return static::where('slug', $slug)->firstOrFail();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -9,6 +9,9 @@ $app->group('/api', function () use ($app) {
     $app->post('/posts', 'App\Http\Controllers\PostController:store')->add(ApiAuth::class);
     $app->put('/posts/{post}', 'App\Http\Controllers\PostController:update')->add(ApiAuth::class);
 
+    $app->post('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:store')->add(ApiAuth::class);
+    $app->get('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:index');
+
     $app->post('/auth', 'App\Http\Controllers\AuthController:login');
 });
 

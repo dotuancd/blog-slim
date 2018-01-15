@@ -17,6 +17,14 @@
             <!-- <content> -->
             <div v-html="post.content">
             </div>
+            <new-comment :post="post"></new-comment>
+            <hr>
+            <div>
+                <div v-for="comment in post.comments">
+
+                    {{comment.content}}
+                </div>
+            </div>
             <!-- </content> -->
             <div class="col-lg-12">
                 <div class="col-lg-6 text-left">
@@ -36,6 +44,7 @@
 <script>
     import marked from 'marked'
     import post from '../../models/post.js'
+    import NewComment from '../comments/create'
 
     export default{
         created() {
@@ -43,7 +52,9 @@
         },
         data(){
             return {
-                post: {},
+                post: {
+                    comments: []
+                },
                 editable: false,
                 user: this.$session.get('user')
             }
@@ -73,6 +84,9 @@
                 // So we watch the changes event to fetch the user clicked post and render to user.
                 this.fetchPost();
             }
+        },
+        components: {
+            newComment: NewComment
         }
     }
 </script>

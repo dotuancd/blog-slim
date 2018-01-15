@@ -20,8 +20,10 @@ class PostController extends Controller
 
     public function show(Request $request, Response $response)
     {
+        /** @var Post $post */
         $post = Post::findBySlug($request->getAttribute('post'));
-        $post->user;
+        $post->load(['user', 'comments', 'comments.user']);
+
         $nextPost = Post::where('id', '>', $post->id)->oldest()->first();
         $prevPost = Post::where('id', '<', $post->id)->latest()->first();
         if ($nextPost) {
