@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Models\Comment;
 
 class PostCommentController extends Controller
 {

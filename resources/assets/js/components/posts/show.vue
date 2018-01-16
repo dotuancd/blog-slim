@@ -21,7 +21,6 @@
             <hr>
             <div>
                 <div v-for="comment in post.comments">
-
                     {{comment.content}}
                 </div>
             </div>

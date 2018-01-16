@@ -6,18 +6,15 @@ use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AuthController
+class AuthController extends Controller
 {
-    protected $hash;
-
-    public function __construct($app)
+    private function getHasher()
     {
-        $this->hash = $app['hash'];
+        return $this->getApplication()->get('hash');
     }
-    
+
     public function login(Request $request, Response $response)
     {
-//        $user = Illuminate\Auth\AuthManager::
         $credentials = [
             'email' => $request->getParam('email'),
             'password' => $request->getParam('password'),
@@ -25,11 +22,29 @@ class AuthController
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if (!$user || !$this->hash->check($credentials['password'], $user->password)) {
+        if (!$user || !$this->getHasher()->check($credentials['password'], $user->password)) {
             return $this->unauthenticated($response);
         }
 
         return $response->withJson($user);
+    }
+
+    public function register(Request $request, Response $response)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $request->getParam('name'),
+            'email' => $request->getParam('email'),
+            'password' => $this->getHasher()->make($request->getParam('password')),
+            'api_token' => str_random(64)
+        ]);
+
+        return $response->withJson($user, 201);
     }
 
     protected function unauthenticated(Response $response)

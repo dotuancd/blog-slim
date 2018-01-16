@@ -6,6 +6,6 @@ export default (to, from, next) => {
         return next('/admin');
     }
     let user = Vue.$session.get('user');
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
     return next();
 }
