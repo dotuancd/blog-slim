@@ -27,12 +27,12 @@
             <!-- </content> -->
             <div class="col-lg-12">
                 <div class="col-lg-6 text-left">
-                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {post: post.prev.slug}}">
+                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {slug: post.prev.slug}}">
                        << Previous post: {{post.prev.title}}
                     </router-link>
                 </div>
                 <div class="col-lg-6 text-right">
-                    <router-link v-if="post.next" :to="{name: 'post.show', params: {post: post.next.slug}}">
+                    <router-link v-if="post.next" :to="{name: 'post.show', params: {slug: post.next.slug}}">
                        >> Next post: {{post.next.title}}
                     </router-link>
                 </div>
@@ -61,7 +61,7 @@
         methods: {
             fetchPost () {
                 return post
-                .get(this.$route.params.post)
+                .findBySlug(this.$route.params.slug)
                 .then(({data}) => {
                     this.post = data
                     this.post.content = marked(data.content)

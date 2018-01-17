@@ -1,6 +1,12 @@
 export default {
     get(id) {
-        return axios.get('/api/posts/' + id)
+        return axios.get('/api/admin/posts/' + id)
+    },
+    findBySlug(slug) {
+        return axios.get('/api/posts/' + slug)
+    },
+    admin(page) {
+        return axios.get('/api/admin/posts', {params: {page}})
     },
     paginate(page) {
         return axios.get('/api/posts', {params: {page}})

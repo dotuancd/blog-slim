@@ -25,7 +25,6 @@ class ErrorHandler
 
     protected function convertExceptionToResponse($response, \Exception $e)
     {
-        dd($e);
         $body = $this->formatErrorResponse(500, $e->getMessage());
         return $response->withJson($body, 500);
     }

@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Post
+ * @package App\Models
+ * @method static Post|Builder|\Illuminate\Database\Query\Builder forUser(User $user)
+ */
 class Post extends Model
 {
     protected $appends = [
@@ -67,6 +73,20 @@ class Post extends Model
     public function isOwnedBy(User $user)
     {
         return ($this->user_id == $user->id);
+    }
+
+    public function scopeForUser(Builder $builder, User $user)
+    {
+        if ($user->isUser()) {
+            $builder->where('user_id', $user->id);
+        }
+
+        return  $builder;
+    }
+
+    public function canUpdate(User $user)
+    {
+        return $user->isAdmin() || $this->isOwnedBy($user);
     }
 
     public static function findBySlug($slug)

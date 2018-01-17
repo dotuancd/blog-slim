@@ -7,6 +7,7 @@ use Illuminate\Container\Container;
 use App\Providers\AppServiceProvider;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
+use App\Providers\PaginationServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Filesystem\FilesystemServiceProvider;
@@ -50,6 +51,7 @@ $providers = [
     FilesystemServiceProvider::class,
     TranslationServiceProvider::class,
     ValidationServiceProvider::class,
+    PaginationServiceProvider::class,
 
     AppServiceProvider::class,
 ];

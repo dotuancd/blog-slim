@@ -70,9 +70,4 @@ class PostController extends Controller
         $post->update($request->getParams());
         return $response->withJson($post);
     }
-
-    protected function user($request)
-    {
-        return $request->getAttribute('user');
-    }
 }

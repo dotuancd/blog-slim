@@ -3,7 +3,7 @@
 
 use App\Middleware\ApiAuth;
 
-$app->group('/api', function () use ($app) {
+$app->group('/api', function ($app) {
     $app->get('/posts/{post}', 'App\Http\Controllers\PostController:show');
     $app->get('/posts', 'App\Http\Controllers\PostController:index');
     $app->post('/posts', 'App\Http\Controllers\PostController:store')->add(ApiAuth::class);
@@ -13,6 +13,11 @@ $app->group('/api', function () use ($app) {
     $app->get('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:index');
 
     $app->post('/auth', 'App\Http\Controllers\AuthController:login');
+
+    $app->group('/admin', function ($app) {
+        $app->get('/posts', 'App\Http\Controllers\Admin\PostController:index')->add(ApiAuth::class);
+        $app->get('/posts/{post}', 'App\Http\Controllers\Admin\PostController:show')->add(ApiAuth::class);
+    });
 });
 
 $app->get('/', function ($request, $response, $args) {

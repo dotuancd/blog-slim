@@ -9974,7 +9974,13 @@ module.exports = function normalizeComponent (
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     get: function get(id) {
-        return axios.get('/api/posts/' + id);
+        return axios.get('/api/admin/posts/' + id);
+    },
+    findBySlug: function findBySlug(slug) {
+        return axios.get('/api/posts/' + slug);
+    },
+    admin: function admin(page) {
+        return axios.get('/api/admin/posts', { params: { page: page } });
     },
     paginate: function paginate(page) {
         return axios.get('/api/posts', { params: { page: page } });
@@ -42323,7 +42329,7 @@ if (false) {
 
 
 
-var routes = [{ path: '/', name: 'index', component: __WEBPACK_IMPORTED_MODULE_0__components_index_vue___default.a, meta: { title: 'Boom\'s blog' } }, { path: '/posts', name: 'posts.index', component: __WEBPACK_IMPORTED_MODULE_1__components_posts_index_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/create', name: 'posts.create', component: __WEBPACK_IMPORTED_MODULE_3__components_posts_create_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/:post', name: 'post.show', component: __WEBPACK_IMPORTED_MODULE_2__components_posts_show_vue___default.a }, { path: '/posts/:post/edit', name: 'post.edit', component: __WEBPACK_IMPORTED_MODULE_4__components_posts_edit_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/admin', component: __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_7__middlewares_redirect_if_authorized__["a" /* default */] }, { path: '/404', component: __WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue___default.a, name: 'errors.404' }];
+var routes = [{ path: '/', name: 'index', component: __WEBPACK_IMPORTED_MODULE_0__components_index_vue___default.a, meta: { title: 'Boom\'s blog' } }, { path: '/posts', name: 'posts.index', component: __WEBPACK_IMPORTED_MODULE_1__components_posts_index_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/create', name: 'posts.create', component: __WEBPACK_IMPORTED_MODULE_3__components_posts_create_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/posts/:slug', name: 'post.show', component: __WEBPACK_IMPORTED_MODULE_2__components_posts_show_vue___default.a }, { path: '/posts/:post/edit', name: 'post.edit', component: __WEBPACK_IMPORTED_MODULE_4__components_posts_edit_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_6__middlewares_auth__["a" /* default */] }, { path: '/admin', component: __WEBPACK_IMPORTED_MODULE_5__components_auth_login_vue___default.a, beforeEnter: __WEBPACK_IMPORTED_MODULE_7__middlewares_redirect_if_authorized__["a" /* default */] }, { path: '/404', component: __WEBPACK_IMPORTED_MODULE_8__components_errors_page_not_found_vue___default.a, name: 'errors.404' }];
 
 
 
@@ -42426,7 +42432,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "to": {
           name: 'post.show',
           params: {
-            post: post.slug
+            slug: post.slug
           }
         }
       }
@@ -42537,7 +42543,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         var page = this.$route.query.page || 1;
-        __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].paginate(page).then(function (_ref) {
+        __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].admin(page).then(function (_ref) {
             var data = _ref.data;
             return _this.posts = data.data;
         });
@@ -42585,7 +42591,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "to": {
           name: 'post.edit',
           params: {
-            post: post.slug
+            post: post.id
           }
         }
       }
@@ -42595,7 +42601,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "to": {
           name: 'post.show',
           params: {
-            post: post.slug
+            slug: post.slug
           }
         }
       }
@@ -42607,7 +42613,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "to": {
           name: 'post.edit',
           params: {
-            post: post.slug
+            post: post.id
           }
         }
       }
@@ -42617,9 +42623,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "btn btn-link",
       attrs: {
         "to": {
-          name: 'post.edit',
+          name: 'post.destroy',
           params: {
-            post: post.slug
+            post: post.id
           }
         }
       }
@@ -42754,7 +42760,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetchPost: function fetchPost() {
             var _this = this;
 
-            return __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].get(this.$route.params.post).then(function (_ref) {
+            return __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].findBySlug(this.$route.params.slug).then(function (_ref) {
                 var data = _ref.data;
 
                 _this.post = data;
@@ -43009,7 +43015,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": {
         name: 'post.show',
         params: {
-          post: _vm.post.prev.slug
+          slug: _vm.post.prev.slug
         }
       }
     }
@@ -43020,7 +43026,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "to": {
         name: 'post.show',
         params: {
-          post: _vm.post.next.slug
+          slug: _vm.post.next.slug
         }
       }
     }
