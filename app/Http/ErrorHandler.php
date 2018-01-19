@@ -12,6 +12,7 @@ class ErrorHandler
 {
     public function handle($request, $response, $exception)
     {
+//        throw $exception;
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($response, $exception);
         }

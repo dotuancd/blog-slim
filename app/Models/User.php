@@ -14,6 +14,13 @@ class User extends Model
         'role' => self::USER,
     ];
 
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'api_token'
+    ];
+
     protected $hidden = ['password', 'remember_token'];
 
     public function isAdmin()

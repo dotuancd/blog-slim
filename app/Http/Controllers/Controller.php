@@ -6,6 +6,7 @@ use App\Container;
 use App\Http\Exception\ForbiddenException;
 use App\Support\ApiErrorResponder;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator;
 use Slim\Http\Request;
 
 class Controller
@@ -24,12 +25,12 @@ class Controller
 
     protected function validate($request, $rules, $messages = [], $attributes = [])
     {
-        /** @var Validator $validator */
         $validatorFactory = $this->getApplication()->make('validator');
 
         $validator = $validatorFactory->make($request->getParams(), $rules, $messages, $attributes);
+        /** @var Validator $validator */
 
-        if ($validator->failed()) {
+        if ($validator->fails()) {
             throw new ValidationException($validator);
         }
     }

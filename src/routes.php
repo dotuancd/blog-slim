@@ -13,6 +13,7 @@ $app->group('/api', function ($app) {
     $app->get('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:index');
 
     $app->post('/auth', 'App\Http\Controllers\AuthController:login');
+    $app->post('/register', 'App\Http\Controllers\AuthController:register');
 
     $app->group('/admin', function ($app) {
         $app->get('/posts', 'App\Http\Controllers\Admin\PostController:index')->add(ApiAuth::class);

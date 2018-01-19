@@ -4,6 +4,7 @@ import SinglePost from './components/posts/show.vue';
 import CreatePost from './components/posts/create.vue';
 import EditPost from './components/posts/edit.vue';
 import Login from './components/auth/login.vue';
+import Register from './components/auth/register.vue';
 import auth from './middlewares/auth';
 import RedirectIfAuthorized from './middlewares/redirect-if-authorized'
 
@@ -15,7 +16,8 @@ let routes = [
     {path: '/posts/create', name: 'posts.create', component: CreatePost, beforeEnter: auth},
     {path: '/posts/:slug', name: 'post.show', component: SinglePost},
     {path: '/posts/:post/edit', name: 'post.edit', component: EditPost, beforeEnter: auth},
-    {path: '/admin', component: Login, beforeEnter: RedirectIfAuthorized},
+    {path: '/login', name: 'login', component: Login, beforeEnter: RedirectIfAuthorized},
+    {path: '/register', name: 'register', component: Register, beforeEnter: RedirectIfAuthorized},
     {path: '/404', component: PageNotFound, name: 'errors.404'}
 ];
 

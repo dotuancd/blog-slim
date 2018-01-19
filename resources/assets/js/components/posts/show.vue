@@ -17,11 +17,17 @@
             <!-- <content> -->
             <div v-html="post.content">
             </div>
-            <new-comment :post="post"></new-comment>
             <hr>
-            <div>
-                <div v-for="comment in post.comments">
-                    {{comment.content}}
+            <section>Write a comment</section>
+            <div class="well well-lg">
+                <new-comment :post="post" v-if="$session.has('user')"></new-comment>
+                <login-link v-else></login-link>
+            </div>
+            <session>Comments</session>
+            <div class="list-group">
+                <div v-for="comment in post.comments" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{comment.user.name}}</h4>
+                    <p class="list-group-item-text">{{comment.content}}</p>
                 </div>
             </div>
             <!-- </content> -->
@@ -44,6 +50,7 @@
     import marked from 'marked'
     import post from '../../models/post.js'
     import NewComment from '../comments/create'
+    import LoginLink from '../supports/login-link'
 
     export default{
         created() {
@@ -85,7 +92,8 @@
             }
         },
         components: {
-            newComment: NewComment
+            LoginLink,
+            NewComment
         }
     }
 </script>
