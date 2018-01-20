@@ -41861,6 +41861,11 @@ var Session = function () {
         value: function has(key) {
             return this.storage.hasOwnProperty(key);
         }
+    }, {
+        key: "unset",
+        value: function unset(key) {
+            this.storage.removeItem(key);
+        }
     }]);
 
     return Session;
@@ -42160,7 +42165,7 @@ exports = module.exports = __webpack_require__(15)(undefined);
 
 
 // module
-exports.push([module.i, "\n.navbar[data-v-6c1964b3] {\n    border-radius: 0px;\n}\n", ""]);
+exports.push([module.i, "\n.navbar[data-v-6c1964b3] {\n    border-radius: 0px;\n}\n.navbar .navbar-text[data-v-6c1964b3] {\n    margin-right: 0;\n    margin-left: 0;\n}\n", ""]);
 
 // exports
 
@@ -42227,9 +42232,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "navigation"
+    name: "navigation",
+    methods: {
+        logout: function logout() {
+            this.$session.unset('user');
+            this.$router.push({ name: 'index' });
+        }
+    },
+    watch: {
+        '$session': function $session() {}
+    }
 });
 
 /***/ }),
@@ -42237,13 +42274,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('nav', {
     staticClass: "navbar navbar-default"
   }, [_c('div', {
     staticClass: "container"
-  }, [_c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "collapse navbar-collapse",
+    attrs: {
+      "id": "bs-example-navbar-collapse-1"
+    }
+  }, [_vm._m(1), _vm._v(" "), (!_vm.$session.has('user')) ? _c('ul', {
+    staticClass: "nav navbar-nav navbar-right"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'login'
+      }
+    }
+  }, [_c('strong', [_vm._v("Sign in")])])], 1), _vm._v(" "), _c('li', {
+    staticClass: "navbar-text"
+  }, [_vm._v("or")]), _vm._v(" "), _c('li', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'register'
+      }
+    }
+  }, [_c('strong', [_vm._v("Sign up")])])], 1)]) : _c('ul', {
+    staticClass: "nav navbar-nav navbar-right"
+  }, [_c('li', {
+    staticClass: "dropdown"
+  }, [_c('a', {
+    staticClass: "dropdown-toggle",
+    attrs: {
+      "href": "#",
+      "data-toggle": "dropdown",
+      "role": "button",
+      "aria-expanded": "false"
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.$session.get('user').name) + " "), _c('span', {
+    staticClass: "caret"
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu",
+    attrs: {
+      "role": "menu"
+    }
+  }, [_vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('li', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("Logout")])])])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "navbar-header"
   }, [_c('button', {
     staticClass: "navbar-toggle collapsed",
@@ -42265,12 +42351,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "#"
     }
-  }, [_vm._v("Boom's Blog")])]), _vm._v(" "), _c('div', {
-    staticClass: "collapse navbar-collapse",
-    attrs: {
-      "id": "bs-example-navbar-collapse-1"
-    }
-  }, [_c('ul', {
+  }, [_vm._v("Boom's Blog")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
     staticClass: "nav navbar-nav"
   }, [_c('li', {
     staticClass: "active"
@@ -42286,7 +42369,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("About"), _c('span', {
     staticClass: "sr-only"
-  }, [_vm._v("(current)")])])])])])])])
+  }, [_vm._v("(current)")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("Profile")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_vm._v("Change password")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -42748,6 +42843,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -43117,9 +43217,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(comment.content))])])
   })), _vm._v(" "), _c('div', {
     staticClass: "col-lg-12"
-  }, [_c('div', {
-    staticClass: "col-lg-6 text-left"
-  }, [(_vm.post.prev) ? _c('router-link', {
+  }, [_c('ul', {
+    staticClass: "pager"
+  }, [(_vm.post.prev) ? _c('li', {
+    staticClass: "previous"
+  }, [_c('router-link', {
     attrs: {
       "to": {
         name: 'post.show',
@@ -43128,9 +43230,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }, [_vm._v("\n                   << Previous post: " + _vm._s(_vm.post.prev.title) + "\n                ")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-lg-6 text-right"
-  }, [(_vm.post.next) ? _c('router-link', {
+  }, [_vm._v("\n                        ← Older: " + _vm._s(_vm.post.prev.title) + "\n                    ")])], 1) : _vm._e(), _vm._v(" "), (_vm.post.next) ? _c('li', {
+    staticClass: "next"
+  }, [_c('router-link', {
     attrs: {
       "to": {
         name: 'post.show',
@@ -43139,7 +43241,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }, [_vm._v("\n                   >> Next post: " + _vm._s(_vm.post.next.title) + "\n                ")]) : _vm._e()], 1)])], 1)])
+  }, [_vm._v("\n                        Newer: " + _vm._s(_vm.post.next.title) + " →\n                    ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "col-lg-6 text-right"
+  })])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

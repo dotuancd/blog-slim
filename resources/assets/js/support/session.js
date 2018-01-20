@@ -16,6 +16,9 @@ class Session {
     has (key) {
         return this.storage.hasOwnProperty(key);
     }
+    unset(key) {
+        this.storage.removeItem(key);
+    }
 }
 
 export default {

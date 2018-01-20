@@ -32,15 +32,20 @@
             </div>
             <!-- </content> -->
             <div class="col-lg-12">
-                <div class="col-lg-6 text-left">
-                    <router-link v-if="post.prev" :to="{name: 'post.show', params: {slug: post.prev.slug}}">
-                       << Previous post: {{post.prev.title}}
-                    </router-link>
-                </div>
+                <ul class="pager">
+                    <li class="previous" v-if="post.prev">
+                        <router-link :to="{name: 'post.show', params: {slug: post.prev.slug}}">
+                            &larr; Older: {{post.prev.title}}
+                        </router-link>
+                    </li>
+                    <li class="next" v-if="post.next">
+                        <router-link :to="{name: 'post.show', params: {slug: post.next.slug}}">
+                            Newer: {{post.next.title}} &rarr;
+                        </router-link>
+                    </li>
+                </ul>
                 <div class="col-lg-6 text-right">
-                    <router-link v-if="post.next" :to="{name: 'post.show', params: {slug: post.next.slug}}">
-                       >> Next post: {{post.next.title}}
-                    </router-link>
+
                 </div>
             </div>
         </article>
