@@ -23,7 +23,7 @@
                 <new-comment :post="post" v-if="$session.has('user')"></new-comment>
                 <login-link v-else></login-link>
             </div>
-            <session>Comments</session>
+            <legend>Comments</legend>
             <div class="list-group">
                 <div v-for="comment in post.comments" class="list-group-item">
                     <h4 class="list-group-item-heading">{{comment.user.name}}</h4>

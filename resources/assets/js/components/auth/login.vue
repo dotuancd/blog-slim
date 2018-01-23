@@ -2,7 +2,7 @@
     <div class="container">
         <div class="col-lg-6 col-lg-offset-3">
             <div class="well bs-component">
-                <form class="form-horizontal">
+                <form class="form-horizontal" @submit.prevent="login">
                     <fieldset>
                         <legend>Sign in</legend>
                         <div class="alert alert-danger" v-if="error" v-text="error"></div>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
-                                <button type="button" @click="login" class="btn btn-success" v-bind:class="{disabled: authenticating}">Login</button>
+                                <button type="submit" class="btn btn-success" v-bind:class="{disabled: authenticating}">Login</button>
                             </div>
                         </div>
                     </fieldset>
@@ -65,8 +65,10 @@
                     this.$session.set('user', JSON.stringify(user));
                     this.success = "Welcome back. Have a good day.";
                     this.$router.push({name:'posts.index'});
+                    this.$events.$emit('login', user);
+                    console.log("Logged in triggered");
                 })
-                .catch(({data}) => {
+                .catch((e) => {
                     this.authenticating = false;
                     this.error = 'Email or password is incorrect';
                 });

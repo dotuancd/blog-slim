@@ -16,18 +16,18 @@
             <tbody>
                 <tr v-for="post in posts">
                     <td>
-                        <router-link :to="{name: 'post.edit', params: {post: post.id}}">
+                        <router-link :to="{name: 'posts.edit', params: {post: post.id}}">
                             {{post.title}}
                         </router-link>
                     </td>
                     <td>
-                        <router-link class="btn btn-link" :to="{name: 'post.show', params: {slug: post.slug}}">
+                        <router-link class="btn btn-link" :to="{name: 'posts.show', params: {slug: post.slug}}">
                             <span class="glyphicon glyphicon-eye-open"></span> View
                         </router-link>
-                        <router-link class="btn btn-link" :to="{name: 'post.edit', params: {post: post.id}}">
+                        <router-link class="btn btn-link" :to="{name: 'posts.edit', params: {post: post.id}}">
                             <span class="glyphicon glyphicon-edit"></span> Edit
                         </router-link>
-                        <router-link class="btn btn-link" :to="{name: 'post.destroy', params: {post: post.id}}">
+                        <router-link class="btn btn-link" :to="{name: 'posts.destroy', params: {post: post.id}}">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </router-link>
                     </td>

@@ -17,7 +17,7 @@
                     <li><a href="#">About<span class="sr-only">(current)</span></a></li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right" v-if="!$session.has('user')">
+                <ul class="nav navbar-nav navbar-right" v-if="!user">
                     <li>
                         <router-link :to="{name: 'login'}"><strong>Sign in</strong></router-link>
                     </li>
@@ -29,7 +29,7 @@
                 <ul class="nav navbar-nav navbar-right" v-else>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{$session.get('user').name}} <span class="caret"></span>
+                            {{user.name}} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Profile</a></li>
@@ -47,15 +47,30 @@
 <script>
     export default {
         name: "navigation",
+        mounted() {
+            this.$events.$on('logout', () => {
+                console.log('logout');
+                this.user = null;
+                console.log(this.user);
+            });
+
+            console.log("Logging listening");
+            this.$events.$on('login', (user) => {
+                console.log("login");
+                this.user = user;
+            });
+        },
+        data() {
+            return {
+                user: this.$session.get('user')
+            };
+        },
         methods: {
             logout() {
+                this.$events.$emit('logout');
+                console.log("Logout triggered");
                 this.$session.unset('user');
                 this.$router.push({name: 'index'});
-            }
-        },
-        watch: {
-            '$session'() {
-
             }
         }
     }

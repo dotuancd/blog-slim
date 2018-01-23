@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Container;
 use App\Models\Post;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
 use Slim\Http\Request;
@@ -22,7 +23,12 @@ class PostController extends Controller
     {
         /** @var Post $post */
         $post = Post::findBySlug($request->getAttribute('post'));
-        $post->load(['user', 'comments', 'comments.user']);
+        $post->load([
+            'user',
+            'recentComments',
+            'recentComments.user:id,name'
+        ]);
+
 
         $nextPost = Post::where('id', '>', $post->id)->oldest()->first();
         $prevPost = Post::where('id', '<', $post->id)->latest()->first();

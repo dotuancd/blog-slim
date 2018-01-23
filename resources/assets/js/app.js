@@ -14,12 +14,11 @@ import Session from './support/session';
 import Flash from './support/flash'
 import ErrorHandler from './support/error-handler'
 
-import navigation from './components/layout/navigation'
-
-
-Vue.component('navigation', navigation)
+import Navigation from './components/layout/navigation'
+import EventBus from './support/events';
 
 Vue.use(VueRouter);
+Vue.use(EventBus);
 Vue.use(Session, {storage: sessionStorage});
 Vue.use(Flash)
 
@@ -28,6 +27,8 @@ Vue.use(Flash)
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.component('navigation', Navigation)
 
 // Vue.component('example', require('./components/Example.vue'));
 // Vue.component('posts-index', );

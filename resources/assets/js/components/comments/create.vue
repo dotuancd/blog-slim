@@ -1,11 +1,13 @@
 <template>
     <div>
-        <form class="form">
+        <form class="form" @submit.prevent="save">
             <div class="form-group">
                 <textarea class="form-control" v-model="comment.content" id="comment-content" cols="30" rows="10"></textarea>
             </div>
             <div class="form-group">
-                <button class="btn btn-success" type="button" @click="save">Comment</button>
+                <button class="btn btn-success" type="submit">
+                    <span class="glyphicon glyphicon-comment"></span> Comment
+                </button>
             </div>
         </form>
     </div>

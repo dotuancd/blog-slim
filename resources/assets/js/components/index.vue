@@ -2,7 +2,7 @@
     <div class="container">
         <div v-for="post in posts">
             <h2>
-                # <router-link :to="{name: 'post.show', params: {slug: post.slug}}">{{post.title}}</router-link>
+                # <router-link :to="{name: 'posts.show', params: {slug: post.slug}}">{{post.title}}</router-link>
             </h2>
         </div>
     </div>

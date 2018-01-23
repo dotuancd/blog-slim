@@ -98,4 +98,9 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function recentComments()
+    {
+        return $this->comments()->latest()->limit(5);
+    }
 }

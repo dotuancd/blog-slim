@@ -2,7 +2,9 @@ class Session {
     constructor(storage) {
         this.storage = storage;
     }
+
     set (key, value) {
+        console.log(`Key ${key} changed to: ${value}`);
         this.storage.setItem(key, value);
     }
     get (key) {
@@ -23,6 +25,16 @@ class Session {
 
 export default {
     install(Vue, options) {
-        Vue.$session = Vue.prototype.$session = new Session(options.storage);
+        const session = new Session(options.storage);
+        Object.defineProperty(Vue, '$session', {
+            get() {
+                return session;
+            }
+        });
+        Object.defineProperty(Vue.prototype, '$session', {
+            get() {
+                return session;
+            }
+        });
     }
 };
