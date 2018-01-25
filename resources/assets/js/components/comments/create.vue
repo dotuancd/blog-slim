@@ -2,11 +2,11 @@
     <div>
         <form class="form" @submit.prevent="save">
             <div class="form-group">
-                <textarea class="form-control" v-model="comment.content" id="comment-content" cols="30" rows="10"></textarea>
+                <textarea class="form-control" v-model="comment.content" id="comment-content" rows="8"></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group text-right">
                 <button class="btn btn-success" type="submit">
-                    <span class="glyphicon glyphicon-comment"></span> Comment
+                    <span class="glyphicon glyphicon-send"></span> Comment
                 </button>
             </div>
         </form>

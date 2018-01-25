@@ -66,7 +66,6 @@
                     this.success = "Welcome back. Have a good day.";
                     this.$router.push({name:'posts.index'});
                     this.$events.$emit('login', user);
-                    console.log("Logged in triggered");
                 })
                 .catch((e) => {
                     this.authenticating = false;

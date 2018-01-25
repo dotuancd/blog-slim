@@ -21,14 +21,15 @@ class PostController extends Controller
 
     public function show(Request $request, Response $response)
     {
-        /** @var Post $post */
-        $post = Post::findBySlug($request->getAttribute('post'));
-        $post->load([
+        /** @var Post|\Illuminate\Database\Eloquent\Builder|Builder $post */
+        $post = Post::with([
             'user',
             'recentComments',
             'recentComments.user:id,name'
         ]);
-
+        $post->withCount('comments');
+        $post->whereSlug($request->getAttribute('post'));
+        $post = $post->firstOrFail();
 
         $nextPost = Post::where('id', '>', $post->id)->oldest()->first();
         $prevPost = Post::where('id', '<', $post->id)->latest()->first();

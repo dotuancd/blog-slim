@@ -18,12 +18,11 @@
             <div v-html="post.content">
             </div>
             <hr>
-            <section>Write a comment</section>
+            <legend>{{post.comments_count}} Comments</legend>
             <div class="well well-lg">
                 <new-comment :post="post" v-if="$session.has('user')"></new-comment>
                 <login-link v-else></login-link>
             </div>
-            <legend>Comments</legend>
             <div class="list-group">
                 <div v-for="comment in post.comments" class="list-group-item">
                     <h4 class="list-group-item-heading">{{comment.user.name}}</h4>
@@ -77,6 +76,7 @@
                 .then(({data}) => {
                     this.post = data
                     this.post.content = marked(data.content)
+                    this.post.comments = this.post.recent_comments;
                     document.title = data.title;
                     this.editable = post.isOwnedBy(this.post, this.user)
                 })

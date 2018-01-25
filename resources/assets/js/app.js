@@ -22,6 +22,25 @@ Vue.use(EventBus);
 Vue.use(Session, {storage: sessionStorage});
 Vue.use(Flash)
 
+// If user refresh page should set api token to request.
+if (Vue.$session.has('user')) {
+    let user = Vue.$session.get('user');
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
+}
+
+Vue.$events.$on('login', (user) => {
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
+});
+
+Vue.$events.$on('logout', () =>  {
+    console.log('logout trigger');
+    delete window.axios.defaults.headers.common['Authorization'];
+})
+
+// Vue.$events.$on('login', (user) => {
+//     window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.api_token;
+// });
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
