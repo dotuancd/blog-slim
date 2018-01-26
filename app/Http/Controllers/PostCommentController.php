@@ -12,13 +12,19 @@ class PostCommentController extends Controller
     public function index(Request $request, Response $response)
     {
         $post = Post::findOrFail($request->getAttribute('post'));
-        $comments = $post->comments()->latest()->paginate();
+        $comments = $post->comments()
+            ->with('user:id,name')
+            ->latest()
+            ->paginate();
 
-        $response->withJson($comments);
+        return $response->withJson($comments);
     }
 
     public function store(Request $request, Response $response)
     {
+        $this->validate($request, [
+            'content' => 'required'
+        ]);
         $post = Post::findOrFail($request->getAttribute('post'));
         $user = $request->getAttribute('user');
 

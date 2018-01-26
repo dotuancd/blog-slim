@@ -18,7 +18,7 @@
             <div v-html="post.content">
             </div>
             <hr>
-            <legend>{{post.comments_count}} Comments</legend>
+            <legend>{{comments.total}} Comments</legend>
             <div class="well well-lg">
                 <new-comment :post="post" v-if="$session.has('user')"></new-comment>
                 <login-link v-else></login-link>
@@ -55,6 +55,7 @@
     import post from '../../models/post.js'
     import NewComment from '../comments/create'
     import LoginLink from '../supports/login-link'
+    import Comment from '../../models/comment'
 
     export default{
         created() {
@@ -65,6 +66,12 @@
                 post: {
                     comments: []
                 },
+                comments: {
+                    page: 1,
+                    perPage: 10,
+                    total: 0
+                },
+                postComments: [],
                 editable: false,
                 user: this.$session.get('user')
             }
@@ -76,10 +83,18 @@
                 .then(({data}) => {
                     this.post = data
                     this.post.content = marked(data.content)
-                    this.post.comments = this.post.recent_comments;
                     document.title = data.title;
-                    this.editable = post.isOwnedBy(this.post, this.user)
+                    this.editable = post.isOwnedBy(this.post, this.user);
+                    this.fetchComments();
                 })
+            },
+            fetchComments() {
+                return Comment
+                .forPost(this.post, this.comments.page, this.comments.perPage)
+                .then(({data}) => {
+                    this.post.comments = data.data;
+                    this.comments.total = data.total;
+                });
             }
         },
         watch: {
