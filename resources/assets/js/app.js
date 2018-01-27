@@ -13,6 +13,7 @@ import VueRouter from 'vue-router';
 import Session from './support/session';
 import Flash from './support/flash'
 import ErrorHandler from './support/error-handler'
+import Holder from './directives/holder';
 
 import Navigation from './components/layout/navigation'
 import EventBus from './support/events';
@@ -21,6 +22,7 @@ Vue.use(VueRouter);
 Vue.use(EventBus);
 Vue.use(Session, {storage: sessionStorage});
 Vue.use(Flash)
+Vue.use(Holder);
 
 // If user refresh page should set api token to request.
 if (Vue.$session.has('user')) {

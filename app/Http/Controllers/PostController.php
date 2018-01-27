@@ -24,8 +24,6 @@ class PostController extends Controller
         /** @var Post|\Illuminate\Database\Eloquent\Builder|Builder $post */
         $post = Post::with([
             'user',
-            'recentComments',
-            'recentComments.user:id,name'
         ]);
         $post->withCount('comments');
         $post->whereSlug($request->getAttribute('post'));
@@ -68,7 +66,7 @@ class PostController extends Controller
 
         $user = $this->user($request);
         if (!$post->isOwnedBy($user)) {
-            return $this->forbidden('What are you doing? It is not your.');
+            return $this->forbidden('What are you doing? It is not your post.');
         }
 
         $this->validate($request, [

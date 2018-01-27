@@ -23,10 +23,18 @@
                 <new-comment :post="post" v-if="$session.has('user')"></new-comment>
                 <login-link v-else></login-link>
             </div>
-            <div class="list-group">
-                <div v-for="comment in post.comments" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{comment.user.name}}</h4>
-                    <p class="list-group-item-text">{{comment.content}}</p>
+            <div class="media-list">
+
+                <div v-for="comment in post.comments" class="media">
+                    <div class="media-left">
+                        <div class="media-object">
+                            <img v-holder="{img: '64x64', text: getHolderFromText(comment.user.name)}">
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">{{comment.user.name}} <small>{{toHumanDate(comment.created_at)}}</small></h5>
+                        <p>{{comment.content}}</p>
+                    </div>
                 </div>
             </div>
             <!-- </content> -->
@@ -56,6 +64,7 @@
     import NewComment from '../comments/create'
     import LoginLink from '../supports/login-link'
     import Comment from '../../models/comment'
+    import moment from 'moment'
 
     export default{
         created() {
@@ -95,6 +104,13 @@
                     this.post.comments = data.data;
                     this.comments.total = data.total;
                 });
+            },
+            getHolderFromText(name) {
+                let parts = name.split(/\s+/);
+                return parts.map((part) => { return part.substr(0, 1)}).join('');
+            },
+            toHumanDate(dateTime) {
+                return moment(dateTime).fromNow();
             }
         },
         watch: {
