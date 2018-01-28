@@ -8,6 +8,7 @@ $app->group('/api', function ($app) {
     $app->get('/posts', 'App\Http\Controllers\PostController:index');
     $app->post('/posts', 'App\Http\Controllers\PostController:store')->add(ApiAuth::class);
     $app->put('/posts/{post}', 'App\Http\Controllers\PostController:update')->add(ApiAuth::class);
+    $app->get('/tags/{tag}', 'App\Http\Controllers\PostTagController:index');
 
     $app->post('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:store')->add(ApiAuth::class);
     $app->get('/posts/{post}/comments', 'App\Http\Controllers\PostCommentController:index');

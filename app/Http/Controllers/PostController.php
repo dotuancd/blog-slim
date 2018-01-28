@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Container;
 use App\Models\Post;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Validation\Factory;
-use Illuminate\Validation\ValidationException;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Illuminate\Validation\Validator;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Query\Builder;
 
 class PostController extends Controller
 {
@@ -24,7 +19,9 @@ class PostController extends Controller
         /** @var Post|\Illuminate\Database\Eloquent\Builder|Builder $post */
         $post = Post::with([
             'user',
+            'tags:name,slug,posts_count'
         ]);
+
         $post->whereSlug($request->getAttribute('post'));
         $post = $post->firstOrFail();
 

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $appends = [
-        'author'
+//        'author'
     ];
 
     protected $fillable = [
@@ -25,6 +25,7 @@ class Post extends Model
     protected $hidden = [
         'user',
         'user_id',
+        'pivot',
     ];
 
     protected static function boot()
@@ -97,6 +98,11 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag');
     }
 
     public function recentComments()

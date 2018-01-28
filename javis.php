@@ -5,6 +5,9 @@ use Illuminate\Config\Repository;
 use Illuminate\Console\Application;
 use Illuminate\Database\ConnectionResolver;
 use Illuminate\Database\ConnectionResolverInterface;
+use Illuminate\Database\Console\Migrations\FreshCommand;
+use Illuminate\Database\Console\Migrations\RollbackCommand;
+use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Events\EventServiceProvider;
@@ -56,6 +59,8 @@ $service = new MigrationServiceProvider($container);
 $service->register();
 $container->alias('migration.repository', MigrationRepositoryInterface::class);
 $container->alias('migrator', Migrator::class);
+$schema = $container['db']->connection()->getSchemaBuilder();
+$schema::defaultStringLength(191);
 
 $hash = new HashServiceProvider($container);
 $hash->register();
@@ -70,8 +75,11 @@ $app->addCommands([
     $container->make(MigrateMakeCommand::class),
     $container->make(InstallCommand::class),
     $container->make(RefreshCommand::class),
+    $container->make(FreshCommand::class),
     $container->make(ResetCommand::class),
     $container->make(SeederMakeCommand::class),
     $container->make(SeedCommand::class),
+    $container->make(RollbackCommand::class),
+    $container->make(StatusCommand::class),
 ]);
 $app->run();
