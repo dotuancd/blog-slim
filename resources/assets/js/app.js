@@ -49,8 +49,6 @@ Vue.$events.$on('logout', () =>  {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('navigation', Navigation)
-
 // Vue.component('example', require('./components/Example.vue'));
 // Vue.component('posts-index', );
 // Vue.component('post', );
@@ -61,14 +59,16 @@ const router = new VueRouter({
     routes
 });
 
+Vue.component('navigation', Navigation)
+
 Vue.use(ErrorHandler, {
     router: router
 })
 
-router.beforeEach((to, from, next) => {
-    document.title = to.meta.title || 'Loading...'
-    next()
-});
+// router.beforeEach((to, from, next) => {
+//     document.title = to.meta.title || 'Loading...'
+//     next()
+// });
 
 const app = new Vue({
     router: router,

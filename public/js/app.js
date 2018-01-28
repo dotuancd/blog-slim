@@ -42432,8 +42432,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.$events.$on('logout', function () {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navigation', __WEBPACK_IMPORTED_MODULE_6__components_layout_navigation___default.a);
-
 // Vue.component('example', require('./components/Example.vue'));
 // Vue.component('posts-index', );
 // Vue.component('post', );
@@ -42444,14 +42442,16 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     routes: __WEBPACK_IMPORTED_MODULE_8__routes__["a" /* routes */]
 });
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navigation', __WEBPACK_IMPORTED_MODULE_6__components_layout_navigation___default.a);
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4__support_error_handler__["a" /* default */], {
     router: router
 });
 
-router.beforeEach(function (to, from, next) {
-    document.title = to.meta.title || 'Loading...';
-    next();
-});
+// router.beforeEach((to, from, next) => {
+//     document.title = to.meta.title || 'Loading...'
+//     next()
+// });
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     router: router
@@ -62896,6 +62896,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "navigation",
@@ -62940,7 +62944,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("nav", { staticClass: "navbar navbar-default" }, [
     _c("div", { staticClass: "container" }, [
-      _vm._m(0),
+      _c(
+        "div",
+        { staticClass: "navbar-header" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "navbar-brand", attrs: { to: { name: "index" } } },
+            [_vm._v("Boom's Blog")]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -62949,7 +62966,22 @@ var render = function() {
           attrs: { id: "bs-example-navbar-collapse-1" }
         },
         [
-          _vm._m(1),
+          _c("ul", { staticClass: "nav navbar-nav" }, [
+            _c(
+              "li",
+              { staticClass: "active" },
+              [
+                _c("router-link", { attrs: { to: { name: "index" } } }, [
+                  _vm._v(
+                    "\n                        Press\n                    "
+                  )
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(1)
+          ]),
           _vm._v(" "),
           !_vm.user
             ? _c("ul", { staticClass: "nav navbar-nav navbar-right" }, [
@@ -63029,50 +63061,35 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "navbar-header" }, [
-      _c(
-        "button",
-        {
-          staticClass: "navbar-toggle collapsed",
-          attrs: {
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#bs-example-navbar-collapse-1"
-          }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [_vm._v("Toggle navigation")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "icon-bar" }),
-          _vm._v(" "),
-          _c("span", { staticClass: "icon-bar" }),
-          _vm._v(" "),
-          _c("span", { staticClass: "icon-bar" })
-        ]
-      ),
-      _vm._v(" "),
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _vm._v("Boom's Blog")
-      ])
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggle collapsed",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#bs-example-navbar-collapse-1"
+        }
+      },
+      [
+        _c("span", { staticClass: "sr-only" }, [_vm._v("Toggle navigation")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon-bar" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon-bar" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "icon-bar" })
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "nav navbar-nav" }, [
-      _c("li", { staticClass: "active" }, [
-        _c("a", { attrs: { href: "#" } }, [
-          _vm._v("Press"),
-          _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("a", { attrs: { href: "#" } }, [
-          _vm._v("About"),
-          _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
-        ])
+    return _c("li", [
+      _c("a", { attrs: { href: "#" } }, [
+        _vm._v("About"),
+        _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
       ])
     ])
   },
@@ -63630,9 +63647,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_comment__ = __webpack_require__(198);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-//
-//
-//
 //
 //
 //
@@ -64756,11 +64770,10 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "pull-right" }, [
+        _c("strong", [_vm._v(_vm._s(_vm.post.author))]),
         _vm._v(
-          "\n            " +
-            _vm._s(_vm.post.author) +
-            " published at " +
-            _vm._s(_vm.post.created_at) +
+          " published on " +
+            _vm._s(_vm.toHumanDate(_vm.post.created_at)) +
             "\n        "
         )
       ]),
@@ -64834,7 +64847,7 @@ var render = function() {
                     {
                       attrs: {
                         to: {
-                          name: "post.show",
+                          name: "posts.show",
                           params: { slug: _vm.post.prev.slug }
                         }
                       }
@@ -64862,7 +64875,7 @@ var render = function() {
                     {
                       attrs: {
                         to: {
-                          name: "post.show",
+                          name: "posts.show",
                           params: { slug: _vm.post.next.slug }
                         }
                       }
@@ -64879,9 +64892,7 @@ var render = function() {
                 1
               )
             : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-lg-6 text-right" })
+        ])
       ])
     ])
   ])

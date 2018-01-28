@@ -25,7 +25,6 @@ class PostController extends Controller
         $post = Post::with([
             'user',
         ]);
-        $post->withCount('comments');
         $post->whereSlug($request->getAttribute('post'));
         $post = $post->firstOrFail();
 

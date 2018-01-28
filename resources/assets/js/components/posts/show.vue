@@ -9,7 +9,7 @@
             <h1 class="text-warning">{{post.title}}</h1>
             <!-- <author> -->
             <div class="pull-right">
-                {{post.author}} published at {{post.created_at}}
+                <strong>{{post.author}}</strong> published on {{toHumanDate(post.created_at)}}
             </div>
             <div class="clearfix"></div>
             <!-- </author> -->
@@ -41,19 +41,16 @@
             <div class="col-lg-12">
                 <ul class="pager">
                     <li class="previous" v-if="post.prev">
-                        <router-link :to="{name: 'post.show', params: {slug: post.prev.slug}}">
+                        <router-link :to="{name: 'posts.show', params: {slug: post.prev.slug}}">
                             &larr; Older: {{post.prev.title}}
                         </router-link>
                     </li>
                     <li class="next" v-if="post.next">
-                        <router-link :to="{name: 'post.show', params: {slug: post.next.slug}}">
+                        <router-link :to="{name: 'posts.show', params: {slug: post.next.slug}}">
                             Newer: {{post.next.title}} &rarr;
                         </router-link>
                     </li>
                 </ul>
-                <div class="col-lg-6 text-right">
-
-                </div>
             </div>
         </article>
     </div>

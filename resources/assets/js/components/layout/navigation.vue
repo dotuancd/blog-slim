@@ -8,12 +8,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Boom's Blog</a>
+                <router-link class="navbar-brand" :to="{name: 'index'}">Boom's Blog</router-link>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Press<span class="sr-only">(current)</span></a></li>
+                    <li class="active">
+                        <router-link :to="{name: 'index'}">
+                            Press
+                        </router-link>
+                    </li>
                     <li><a href="#">About<span class="sr-only">(current)</span></a></li>
                 </ul>
 
