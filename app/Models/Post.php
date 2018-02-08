@@ -7,13 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Post
- * @package App\Models
+ *
+ * @property string $title
+ * @property string $content
+ * @property string $slug
+ * @property int $user_id
+ * @property User $user
+ *
+ * @mixin \Illuminate\Database\Query\Builder|Builder
  * @method static Post|Builder|\Illuminate\Database\Query\Builder forUser(User $user)
+ * @method static Post | Builder | \Illuminate\Database\Query\Builder whereSlug($slug = null)
  */
 class Post extends Model
 {
     protected $appends = [
-//        'author'
+        'author'
     ];
 
     protected $fillable = [
@@ -32,6 +40,7 @@ class Post extends Model
     {
         parent::boot();
         static::saving(function ($post) {
+            /** @var self $post */
             $post->updateSlugIfTitleCharged();
         });
     }
@@ -92,7 +101,8 @@ class Post extends Model
 
     public static function findBySlug($slug)
     {
-        return static::where('slug', $slug)->firstOrFail();
+        $instance = new static();
+        return $instance->where('slug', $slug)->firstOrFail();
     }
 
     public function comments()

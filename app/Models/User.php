@@ -4,6 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $api_token
+ * @property string $role
+ */
 class User extends Model
 {
     const ADMIN = 'admin';

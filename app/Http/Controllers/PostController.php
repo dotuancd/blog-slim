@@ -44,7 +44,7 @@ class PostController extends Controller
         return $response->withJson($post);
     }
 
-    public function store($request, $response)
+    public function store(Request $request, Response $response)
     {
         $this->validate($request, [
             'title' => 'required'
@@ -56,8 +56,16 @@ class PostController extends Controller
         return $response->withJson($post);
     }
 
-    public function update(Request $request, $response)
+    /**
+     * @param Request $request
+     * @param $response
+     * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request, Response $response)
     {
+
+        /** @var Post $post */
         $post = Post::findOrFail($request->getAttribute('post'));
 
         $user = $this->user($request);
