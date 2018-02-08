@@ -64008,7 +64008,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).join('');
         },
         toHumanDate: function toHumanDate(dateTime) {
-            return __WEBPACK_IMPORTED_MODULE_5_moment___default()(dateTime).fromNow();
+            return __WEBPACK_IMPORTED_MODULE_5_moment___default.a.utc(dateTime).fromNow();
         }
     },
     watch: {

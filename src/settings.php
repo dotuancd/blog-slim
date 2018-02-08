@@ -15,5 +15,5 @@ return [
         'level' => \Monolog\Logger::DEBUG,
     ],
     'app' => require(__DIR__ . '/../config/app.php'),
-    'database' => require(__DIR__ . '/../config/database.php')
+    'database' => require(__DIR__ . '/../config/database.php'),
 ];

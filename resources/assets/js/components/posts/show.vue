@@ -110,7 +110,7 @@
                 return parts.map((part) => { return part.substr(0, 1)}).join('');
             },
             toHumanDate(dateTime) {
-                return moment(dateTime).fromNow();
+                return moment.utc(dateTime).fromNow();
             }
         },
         watch: {
