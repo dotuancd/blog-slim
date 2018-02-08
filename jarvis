@@ -66,9 +66,8 @@ $hash = new HashServiceProvider($container);
 $hash->register();
 
 $app = $container->make(Application::class);
+$app->setName('Culi Jarvis');
 /** @var $app Application */
-//$app = new Application($container, $container->make('events'), '1.0.0');
-
 
 $app->addCommands([
     $container->make(MigrateCommand::class),
