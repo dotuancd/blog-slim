@@ -53,7 +53,8 @@
                 axios
                 .post('/api/posts/' + this.post.id + '/comments', this.comment)
                 .then(() => {
-                    this.$events.$emit('comment.submitted');
+                    this.$events.$emit('comments.submitted')
+                    this.clearComment()
                 }).catch(({response}) => {
                     this.error = 'An error occurred during save your comment. Please try again later';
                 })

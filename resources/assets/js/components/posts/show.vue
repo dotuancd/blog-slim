@@ -65,6 +65,9 @@
 
     export default{
         created() {
+            this.$events.$on('comments.submitted', () => {
+                this.fetchComments()
+            })
             this.fetchPost();
         },
         data(){

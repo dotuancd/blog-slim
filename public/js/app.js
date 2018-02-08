@@ -63954,6 +63954,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     created: function created() {
+        var _this = this;
+
+        this.$events.$on('comments.submitted', function () {
+            _this.fetchComments();
+        });
         this.fetchPost();
     },
     data: function data() {
@@ -63974,26 +63979,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         fetchPost: function fetchPost() {
-            var _this = this;
+            var _this2 = this;
 
             return __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].findBySlug(this.$route.params.slug).then(function (_ref) {
                 var data = _ref.data;
 
-                _this.post = data;
-                _this.post.content = __WEBPACK_IMPORTED_MODULE_0_marked___default()(data.content);
+                _this2.post = data;
+                _this2.post.content = __WEBPACK_IMPORTED_MODULE_0_marked___default()(data.content);
                 document.title = data.title;
-                _this.editable = __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].isOwnedBy(_this.post, _this.user);
-                _this.fetchComments();
+                _this2.editable = __WEBPACK_IMPORTED_MODULE_1__models_post_js__["a" /* default */].isOwnedBy(_this2.post, _this2.user);
+                _this2.fetchComments();
             });
         },
         fetchComments: function fetchComments() {
-            var _this2 = this;
+            var _this3 = this;
 
             return __WEBPACK_IMPORTED_MODULE_4__models_comment__["a" /* default */].forPost(this.post, this.comments.page, this.comments.perPage).then(function (_ref2) {
                 var data = _ref2.data;
 
-                _this2.post.comments = data.data;
-                _this2.comments.total = data.total;
+                _this3.post.comments = data.data;
+                _this3.comments.total = data.total;
             });
         },
         getHolderFromText: function getHolderFromText(name) {
@@ -64137,7 +64142,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post('/api/posts/' + this.post.id + '/comments', this.comment).then(function () {
-                _this.$events.$emit('comment.submitted');
+                _this.$events.$emit('comments.submitted');
+                _this.clearComment();
             }).catch(function (_ref) {
                 var response = _ref.response;
 
