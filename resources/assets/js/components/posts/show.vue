@@ -24,7 +24,6 @@
                 <login-link v-else></login-link>
             </div>
             <div class="media-list">
-
                 <div v-for="comment in post.comments" class="media">
                     <div class="media-left">
                         <div class="media-object">
@@ -65,6 +64,24 @@
 
     export default{
         created() {
+            window.onscroll = (e,a) => {
+
+                if (this.comments.isLoading) {
+                    return;
+                }
+                let top = document.body.scrollTop || document.documentElement.scrollTop;
+                let bottom = top + document.documentElement.clientHeight;
+                let height = document.body.scrollHeight;
+
+                // load next comments before scroll to bottom of the page.
+
+                let before  = 100;
+
+                if (this.comments.allLoaded && bottom + before >= height) {
+                    this.comments.page++;
+                    this.fetchComments(this.post.comments);
+                }
+            };
             this.$events.$on('comments.submitted', () => {
                 this.fetchComments()
             })
@@ -77,8 +94,10 @@
                 },
                 comments: {
                     page: 1,
-                    perPage: 10,
-                    total: 0
+                    perPage: 15,
+                    total: 0,
+                    allLoaded: false,
+                    isLoading: false
                 },
                 postComments: [],
                 editable: false,
@@ -97,12 +116,20 @@
                     this.fetchComments();
                 })
             },
-            fetchComments() {
+            fetchComments(append) {
+                this.comments.isLoading = true;
                 return Comment
                 .forPost(this.post, this.comments.page, this.comments.perPage)
                 .then(({data}) => {
-                    this.post.comments = data.data;
+                    append = append || false;
+                    let comments = data.data;
+                    if (append) {
+                        comments = this.post.comments.concat(comments);
+                    }
+                    this.$set(this.post, 'comments', comments);
+                    this.comments.allLoaded = (data.next_page_url !== null);
                     this.comments.total = data.total;
+                    this.comments.isLoading = false;
                 });
             },
             getHolderFromText(name) {

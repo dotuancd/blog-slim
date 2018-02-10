@@ -35,7 +35,6 @@ Vue.$events.$on('login', (user) => {
 });
 
 Vue.$events.$on('logout', () =>  {
-    console.log('logout trigger');
     delete window.axios.defaults.headers.common['Authorization'];
 })
 

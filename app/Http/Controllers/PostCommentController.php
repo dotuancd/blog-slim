@@ -11,11 +11,12 @@ class PostCommentController extends Controller
 {
     public function index(Request $request, Response $response)
     {
+        $limit = $request->getParam('limit', 10);
         $post = Post::findOrFail($request->getAttribute('post'));
         $comments = $post->comments()
             ->with('user:id,name')
             ->latest()
-            ->paginate();
+            ->paginate($limit);
 
         return $response->withJson($comments);
     }

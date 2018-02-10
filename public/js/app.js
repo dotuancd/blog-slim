@@ -42658,7 +42658,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.$events.$on('login', function (user)
 });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.$events.$on('logout', function () {
-    console.log('logout trigger');
     delete window.axios.defaults.headers.common['Authorization'];
 });
 
@@ -63943,7 +63942,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -63956,6 +63954,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this = this;
 
+        window.onscroll = function (e, a) {
+
+            if (_this.comments.isLoading) {
+                return;
+            }
+            var top = document.body.scrollTop || document.documentElement.scrollTop;
+            var bottom = top + document.documentElement.clientHeight;
+            var height = document.body.scrollHeight;
+
+            // load next comments before scroll to bottom of the page.
+
+            var before = 100;
+
+            if (_this.comments.allLoaded && bottom + before >= height) {
+                _this.comments.page++;
+                _this.fetchComments(_this.post.comments);
+            }
+        };
         this.$events.$on('comments.submitted', function () {
             _this.fetchComments();
         });
@@ -63968,8 +63984,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             comments: {
                 page: 1,
-                perPage: 10,
-                total: 0
+                perPage: 15,
+                total: 0,
+                allLoaded: false,
+                isLoading: false
             },
             postComments: [],
             editable: false,
@@ -63991,14 +64009,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.fetchComments();
             });
         },
-        fetchComments: function fetchComments() {
+        fetchComments: function fetchComments(append) {
             var _this3 = this;
 
+            this.comments.isLoading = true;
             return __WEBPACK_IMPORTED_MODULE_4__models_comment__["a" /* default */].forPost(this.post, this.comments.page, this.comments.perPage).then(function (_ref2) {
                 var data = _ref2.data;
 
-                _this3.post.comments = data.data;
+                append = append || false;
+                var comments = data.data;
+                if (append) {
+                    comments = _this3.post.comments.concat(comments);
+                }
+                _this3.$set(_this3.post, 'comments', comments);
+                _this3.comments.allLoaded = data.next_page_url !== null;
                 _this3.comments.total = data.total;
+                _this3.comments.isLoading = false;
             });
         },
         getHolderFromText: function getHolderFromText(name) {
@@ -69853,6 +69879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var user = data;
                 window.user = user;
                 _this.$session.set('user', JSON.stringify(user));
+                _this.$events.$emit('login', user);
                 _this.success = "Welcome back. Have a good day.";
                 _this.$router.push({ name: 'posts.index' });
             }).catch(function (_ref2) {
