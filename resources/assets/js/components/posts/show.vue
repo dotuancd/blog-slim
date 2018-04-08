@@ -60,7 +60,7 @@
     import NewComment from '../comments/create'
     import LoginLink from '../supports/login-link'
     import Comment from '../../models/comment'
-    import moment from 'moment'
+    import utils from '../../support/utils'
 
     export default{
         created() {
@@ -137,7 +137,7 @@
                 return parts.map((part) => { return part.substr(0, 1)}).join('');
             },
             toHumanDate(dateTime) {
-                return moment.utc(dateTime).fromNow();
+                return utils.toHumanDate(dateTime);
             }
         },
         watch: {

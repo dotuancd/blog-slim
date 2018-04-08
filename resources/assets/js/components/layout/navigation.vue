@@ -62,7 +62,6 @@
                 console.log(this.user);
             });
 
-            console.log("Logging listening");
             this.$events.$on('login', (user) => {
                 console.log("login");
                 this.user = user;

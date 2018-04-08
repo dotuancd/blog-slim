@@ -9,23 +9,16 @@
 </template>
 <script>
     import post from "../models/post.js"
-    import navigation from "./layout/navigation"
 
     export default {
         created() {
             let page = this.$route.query.page || 1;
             post.paginate(page).then(({data}) => this.posts = data.data)
         },
-        mounted() {
-            console.log('Component mounted');
-        },
         data(){
             return{
                 posts: []
             }
-        },
-        components:{
-            navigation
         }
     }
 </script>

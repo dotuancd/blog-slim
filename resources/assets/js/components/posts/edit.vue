@@ -33,8 +33,10 @@
                 this.post.content = this.editor.value()
             })
 
+            let postId = this.$route.params.post
+
             post
-            .get(this.$route.params.post)
+            .get(postId)
             .then(({data}) => {
                 this.post = data
                 this.editor.value(data.content)

@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <div class="col-lg-offset-4 col-lg-8">
                             <button type="button" class="btn btn-success" @click="changePassword">Update</button>
-                            <button type="button" class="btn btn-link">Cancel</button>
+                            <button type="button" class="btn btn-link" @click="back">Cancel</button>
                         </div>
                     </div>
                 </fieldset>
@@ -59,6 +59,9 @@
             }
         },
         methods: {
+            back() {
+                this.$router.go(-1)
+            },
             changePassword() {
                 if (!this.currentPassword) {
                     this.message = 'Current password cannot be empty';
