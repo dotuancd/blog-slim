@@ -5,6 +5,7 @@ import CreatePost from './components/posts/create.vue';
 import EditPost from './components/posts/edit.vue';
 import Login from './components/auth/login.vue';
 import Register from './components/auth/register.vue';
+import ChangePassword from './components/auth/change-password';
 import auth from './middlewares/auth';
 import RedirectIfAuthorized from './middlewares/redirect-if-authorized'
 
@@ -18,7 +19,8 @@ let routes = [
     {path: '/posts/:post/edit', name: 'posts.edit', component: EditPost, beforeEnter: auth},
     {path: '/login', name: 'login', component: Login, beforeEnter: RedirectIfAuthorized},
     {path: '/register', name: 'register', component: Register, beforeEnter: RedirectIfAuthorized},
-    {path: '/404', component: PageNotFound, name: 'errors.404'}
+    {path: '/404', component: PageNotFound, name: 'errors.404'},
+    {path: '/me/change-password', component: ChangePassword, name: 'me.changes-password', beforeEnter: auth}
 ];
 
 export {

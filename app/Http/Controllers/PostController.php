@@ -9,8 +9,15 @@ use Illuminate\Database\Query\Builder;
 
 class PostController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return static
+     */
     public function index(Request $request, Response $response)
     {
+        if ($request->getParam('author')) {
+        }
         return $response->withJson(Post::latest()->paginate());
     }
 
@@ -44,6 +51,12 @@ class PostController extends Controller
         return $response->withJson($post);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return static
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request, Response $response)
     {
         $this->validate($request, [
@@ -64,7 +77,6 @@ class PostController extends Controller
      */
     public function update(Request $request, Response $response)
     {
-
         /** @var Post $post */
         $post = Post::findOrFail($request->getAttribute('post'));
 
