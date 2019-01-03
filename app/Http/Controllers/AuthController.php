@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Slim\Http\Request;
-use Slim\Http\Response;
+use App\Http\Response;
 
 class AuthController extends Controller
 {
@@ -23,10 +23,10 @@ class AuthController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         if (!$user || !$this->getHasher()->check($credentials['password'], $user->password)) {
-            return $this->unauthenticated($response);
+            return $response->unauthorized();
         }
 
-        return $response->withJson($user);
+        return $response->success($user);
     }
 
     public function register(Request $request, Response $response)
@@ -44,15 +44,6 @@ class AuthController extends Controller
             'api_token' => str_random(64)
         ]);
 
-        return $response->withJson($user, 201);
-    }
-
-    protected function unauthenticated(Response $response)
-    {
-        return $response->withStatus(401)
-        ->withJson([
-            'error' => true,
-            'message' => 'Unauthenticated'
-        ]);
+        return $response->created($user);
     }
 }

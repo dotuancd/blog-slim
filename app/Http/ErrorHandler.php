@@ -2,48 +2,31 @@
 
 namespace App\Http;
 
-use App\Support\ApiErrorResponder;
-use Slim\Exception\NotFoundException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ErrorHandler
 {
-    public function handle($request, $response, $exception)
+    public function handle($request, Response $response, $exception)
     {
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($response, $exception);
         }
 
         if ($exception instanceof ModelNotFoundException) {
-            return (new ApiErrorResponder($response))->notFound();
+            return $response->notFound();
         }
 
         return $this->convertExceptionToResponse($response, $exception);
     }
 
-    protected function convertExceptionToResponse($response, \Exception $e)
+    protected function convertExceptionToResponse(Response $response, \Exception $e)
     {
-        $body = $this->formatErrorResponse(500, $e->getMessage());
-        return $response->withJson($body, 500);
+        return $response->error(500, $e->getMessage());
     }
 
-    protected function convertValidationExceptionToResponse($response, $exception)
+    protected function convertValidationExceptionToResponse(Response $response, $exception)
     {
-        $body = $this->formatErrorResponse(422, $exception->getMessage(), [
-            'params' => $exception->validator->errors(),
-        ]);
-
-        return $response->withJson($body, 422);
-    }
-
-    protected function formatErrorResponse($code = 500, $message = 'An error occurred', $append = [])
-    {
-        return array_merge([
-            'error' => true,
-            'code' => $code,
-            'message' => $message,
-        ], $append);
+        return $response->validation($exception->validator->errors());
     }
 }

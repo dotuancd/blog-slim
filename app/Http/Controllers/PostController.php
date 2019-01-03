@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Response;
 use App\Models\Post;
 use Slim\Http\Request;
-use Slim\Http\Response;
 use Illuminate\Database\Query\Builder;
 
 class PostController extends Controller
 {
     public function index(Request $request, Response $response)
     {
-        return $response->withJson(Post::latest()->paginate());
+        return $response->success(Post::latest()->paginate());
     }
 
     public function show(Request $request, Response $response)
@@ -41,10 +41,11 @@ class PostController extends Controller
                 'slug' => $prevPost->slug,
             ];
         }
-        return $response->withJson($post);
+
+        return $response->success($post);
     }
 
-    public function store($request, $response)
+    public function store($request, Response $response)
     {
         $this->validate($request, [
             'title' => 'required'
@@ -53,22 +54,27 @@ class PostController extends Controller
         $data = $request->getParams(['title', 'content']);
         $data['user_id'] = $this->user($request)->id;
         $post = Post::create($data);
-        return $response->withJson($post);
+
+        return $response->created($post);
     }
 
-    public function update(Request $request, $response)
+    public function update(Request $request, Response $response)
     {
+        /** @var Post $post */
         $post = Post::findOrFail($request->getAttribute('post'));
 
         $user = $this->user($request);
+
         if (!$post->isOwnedBy($user)) {
-            return $this->forbidden('What are you doing? It is not your post.');
+            return $response->forbidden('What are you doing? It isn\'t your post.');
         }
 
         $this->validate($request, [
             'title' => 'required',
         ]);
+
         $post->update($request->getParams());
-        return $response->withJson($post);
+
+        return $response->success($post);
     }
 }

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <title>Loading...</title>
-        <link rel="stylesheet" type='text/css' href="/vendor/codemirror/theme/dracula.css">
-        <link rel="stylesheet" type='text/css' href="/css/all.css">
+        <link rel="preload" as="style" href="/vendor/codemirror/theme/dracula.css" onload="this.rel='stylesheet'">
+        <link rel="preload" as="style" href="/css/all.css" onload="this.rel='stylesheet'">
+<!--        <script rel="preload" src="/js/app.js" as="script" type="text/javascript"></script>-->
     </head>
     <body>
         <div id="app">
@@ -12,7 +15,7 @@
             <router-view></router-view>
             <div class="container">
                 <hr />
-                <footer class="footer bg-dark text-while">
+                <footer class="footer bg-dark text-white">
                     <p>Made in Vietnam since 1992</p>
                 </footer>
             </div>

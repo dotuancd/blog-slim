@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Slim\Http\Request;
-use Slim\Http\Response;
+use App\Http\Response;
 use App\Models\Comment;
 
 class PostCommentController extends Controller
@@ -17,7 +17,7 @@ class PostCommentController extends Controller
             ->latest()
             ->paginate();
 
-        return $response->withJson($comments);
+        return $response->success($comments);
     }
 
     public function store(Request $request, Response $response)
@@ -25,6 +25,7 @@ class PostCommentController extends Controller
         $this->validate($request, [
             'content' => 'required'
         ]);
+
         $post = Post::findOrFail($request->getAttribute('post'));
         $user = $request->getAttribute('user');
 
@@ -34,6 +35,6 @@ class PostCommentController extends Controller
             'content' => $request->getParam('content')
         ]);
 
-        return $response->withJson($comment);
+        return $response->success($comment);
     }
 }

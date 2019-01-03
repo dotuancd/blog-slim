@@ -1,6 +1,7 @@
 <?php
 // DIC configuration
 
+use App\Http\Response;
 use Slim\DefaultServicesProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
@@ -13,6 +14,7 @@ use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\Translation\TranslationServiceProvider;
+use Slim\Http\Headers;
 
 $container = $app->getContainer();
 
@@ -81,4 +83,12 @@ $container['logger'] = function ($c) {
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
+};
+
+// overwrite http response
+$container['response'] = function ($container) {
+    $headers = new Headers(['Content-Type' => 'text/html; charset=UTF-8']);
+    $response = new Response(200, $headers);
+
+    return $response->withProtocolVersion($container->get('settings')['httpVersion']);
 };

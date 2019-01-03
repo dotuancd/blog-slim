@@ -3,7 +3,7 @@
 namespace App\Middleware;
 
 use App\Models\User;
-use App\Support\ApiErrorResponder;
+use App\Http\Response;
 use Illuminate\Container\Container;
 use Psr\Http\Message\RequestInterface;
 
@@ -27,14 +27,15 @@ class ApiAuth
         /** @var \Slim\Http\Request $request */
         $token = $request->getHeader('Authorization');
         $token = preg_replace('/^Bearer\s/', '', $token) ?: $request->getParam('api_token');
+
         if (!$token) {
-            return ApiErrorResponder::make($response)->unauthorized();
+            return Response::unauthorized($response);
         }
 
         $user = $this->repository->where('api_token', $token)->first();
 
         if (!$user) {
-            return ApiErrorResponder::make($response)->unauthorized();
+            return Response::unauthorized($response);
         }
 
         $request = $request->withAttribute('user', $user);

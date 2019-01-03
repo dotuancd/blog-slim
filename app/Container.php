@@ -4,8 +4,6 @@ namespace App;
 
 use Psr\Container\ContainerInterface;
 use Illuminate\Container\Container as IlluminateContainer;
-//use Psr\Container\ContainerExceptionInterface;
-//use Psr\Container\NotFoundExceptionInterface;
 
 class Container extends IlluminateContainer implements ContainerInterface
 {

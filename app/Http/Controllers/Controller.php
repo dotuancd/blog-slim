@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Container;
-use App\Http\Exception\ForbiddenException;
-use App\Support\ApiErrorResponder;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Validator;
+use App\Http\Response\ErrorBuilder;
 use Slim\Http\Request;
+use Illuminate\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class Controller
 {
@@ -33,12 +32,6 @@ class Controller
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
-    }
-
-    protected function forbidden($message = 'Forbidden')
-    {
-        $response = $this->getApplication()->get('response');
-        return ApiErrorResponder::make($response)->forbidden($message);
     }
 
     /**
