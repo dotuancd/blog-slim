@@ -12,11 +12,11 @@
   },
   "devDependencies": {
     "autosize": "^4.0.0",
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.0.1",
     "holderjs": "^2.9.4",
-    "jquery": "^3.2.1",
+    "jquery": "^3.4.1",
     "laravel-mix": "^1.4.2",
     "marked": "^0.3.6",
     "moment": "^2.20.1",
