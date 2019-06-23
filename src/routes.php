@@ -15,6 +15,8 @@ $app->group('/api', function ($app) {
 
     $app->post('/auth', 'App\Http\Controllers\AuthController:login');
     $app->post('/register', 'App\Http\Controllers\AuthController:register');
+    $app->get('/me', 'Auth\Http\Controllers\AuthController:me')->add(ApiAuth::class);
+    $app->post('/me/change-password', 'App\Http\Controllers\AuthController:changePassword')->add(ApiAuth::class);
 
     $app->group('/admin', function ($app) {
         $app->get('/posts', 'App\Http\Controllers\Admin\PostController:index')->add(ApiAuth::class);

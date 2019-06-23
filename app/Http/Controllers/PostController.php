@@ -9,9 +9,16 @@ use Illuminate\Database\Query\Builder;
 
 class PostController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return static
+     */
     public function index(Request $request, Response $response)
     {
-        return $response->success(Post::latest()->paginate());
+        if ($request->getParam('author')) {
+        }
+        return $response->withJson(Post::latest()->paginate());
     }
 
     public function show(Request $request, Response $response)
@@ -45,7 +52,13 @@ class PostController extends Controller
         return $response->success($post);
     }
 
-    public function store($request, Response $response)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return static
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request, Response $response)
     {
         $this->validate($request, [
             'title' => 'required'
@@ -58,6 +71,12 @@ class PostController extends Controller
         return $response->created($post);
     }
 
+    /**
+     * @param Request $request
+     * @param $response
+     * @return mixed
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request, Response $response)
     {
         /** @var Post $post */

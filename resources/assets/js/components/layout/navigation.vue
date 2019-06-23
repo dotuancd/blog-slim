@@ -37,7 +37,11 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Profile</a></li>
-                            <li><a href="#">Change password</a></li>
+                            <li>
+                                <router-link :to="{name: 'me.changes-password'}">
+                                    Change password
+                                </router-link>
+                            </li>
                             <li class="divider"></li>
                             <li><a href="#" @click="logout">Logout</a></li>
                         </ul>
@@ -58,7 +62,6 @@
                 console.log(this.user);
             });
 
-            console.log("Logging listening");
             this.$events.$on('login', (user) => {
                 console.log("login");
                 this.user = user;

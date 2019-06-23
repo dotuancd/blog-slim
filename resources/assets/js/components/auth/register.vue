@@ -71,6 +71,7 @@
                     let user = data;
                     window.user = user;
                     this.$session.set('user', JSON.stringify(user));
+                    this.$events.$emit('login', user);
                     this.success = "Welcome back. Have a good day.";
                     this.$router.push({name:'posts.index'});
                 })

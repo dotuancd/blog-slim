@@ -21,6 +21,9 @@
                         </router-link>
                     </td>
                     <td>
+                        <router-link class="btn btn-link" :to="{name: 'posts.comments', params: {post: post.id}}">
+                            <span class="glyphicon glyphicon-comment"></span> Comments
+                        </router-link>
                         <router-link class="btn btn-link" :to="{name: 'posts.show', params: {slug: post.slug}}">
                             <span class="glyphicon glyphicon-eye-open"></span> View
                         </router-link>
@@ -37,7 +40,6 @@
     </div>
 </template>
 <script>
-    import axios from "axios"
     import post from "../../models/post.js"
 
     export default{
@@ -46,14 +48,10 @@
             post.admin(page).then(({data}) => this.posts = data.data)
             document.title = 'Post management'
         },
-        mounted() {
-        },
         data(){
             return{
                 posts: []
             }
-        },
-        components:{
         }
     }
 </script>

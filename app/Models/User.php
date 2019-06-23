@@ -2,8 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $username
+ * @property string $password
+ * @property string $api_token
+ * @property string $role
+ */
 class User extends Model
 {
     const ADMIN = 'admin';
@@ -16,6 +26,7 @@ class User extends Model
 
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'api_token'
@@ -36,5 +47,14 @@ class User extends Model
     public function hasRole($role)
     {
         return ($this->role === $role);
+    }
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::where('username', $username)->first();
     }
 }

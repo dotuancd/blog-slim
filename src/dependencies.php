@@ -33,6 +33,8 @@ $defaultSettings = [
 
 $config = new Repository(array_merge($defaultSettings, $userSettings));
 
+date_default_timezone_set($config->get('app.timezone'));
+
 $container->instance('container', $container);
 
 $container->alias(Container::class, 'container');
