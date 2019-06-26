@@ -49,6 +49,11 @@ class User extends Model
         return ($this->role === $role);
     }
 
+    public function canWrite($model)
+    {
+        return $model instanceof HasWritePolicy && $model->writePolicy($this);
+    }
+
     /**
      * @param $username
      * @return User|null

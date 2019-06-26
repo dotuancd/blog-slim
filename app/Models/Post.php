@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,14 +13,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $content
  * @property string $slug
  * @property int $user_id
+ * @property string $status_as_text
  * @property User $user
+ * @property Carbon published_at
  *
  * @mixin \Illuminate\Database\Query\Builder|Builder
  * @method static Post|Builder|\Illuminate\Database\Query\Builder forUser(User $user)
  * @method static Post | Builder | \Illuminate\Database\Query\Builder whereSlug($slug = null)
+ * @method static Post | Builder | \Illuminate\Database\Query\Builder withUnpublished()
+ * @method static Post | Builder | \Illuminate\Database\Query\Builder published()
  */
-class Post extends Model
+class Post extends Model implements HasWritePolicy
 {
+    const STATUS_DRAFT = 1;
+    const STATUS_UNDER_REVIEW = 3;
+    const STATUS_PUBLISHED = 2;
+
     protected $appends = [
         'author'
     ];
@@ -94,7 +103,7 @@ class Post extends Model
         return  $builder;
     }
 
-    public function canUpdate(User $user)
+    public function writePolicy(User $user)
     {
         return $user->isAdmin() || $this->isOwnedBy($user);
     }
@@ -115,8 +124,18 @@ class Post extends Model
         return $this->belongsToMany(Tag::class, 'post_tag');
     }
 
-    public function recentComments()
+    public function recentComments($numOfComments =5)
     {
-        return $this->comments()->latest()->limit(5);
+        return $this->comments()->latest()->limit($numOfComments);
+    }
+
+    public function newest()
+    {
+        return $this->newQuery()->where('published_at', '>', $this->published_at)->oldest();
+    }
+
+    public function oldest()
+    {
+        return $this->newQuery()->where('published_at', '<', $this->published_at)->latest();
     }
 }
