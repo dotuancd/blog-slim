@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Response;
 use App\Models\Post;
+use App\Models\User;
 use Slim\Http\Request;
+use App\Http\Response;
 use Illuminate\Database\Query\Builder;
 
 class PostController extends Controller
@@ -32,20 +33,21 @@ class PostController extends Controller
         $post->whereSlug($request->getAttribute('post'));
         $post = $post->firstOrFail();
 
-        $nextPost = Post::where('id', '>', $post->id)->oldest()->first();
-        $prevPost = Post::where('id', '<', $post->id)->latest()->first();
-        if ($nextPost) {
+        $newest = $post->newest()->take(1)->first();
+        $oldest = $post->oldest()->take(1)->first();
+
+        if ($newest) {
             $post->next = [
-                'id' => $nextPost->id,
-                'title' => $nextPost->title,
-                'slug' => $nextPost->slug,
+                'id' => $newest->id,
+                'title' => $newest->title,
+                'slug' => $newest->slug,
             ];
         }
-        if ($prevPost) {
+        if ($oldest) {
             $post->prev = [
-                'id' => $prevPost->id,
-                'title' => $prevPost->title,
-                'slug' => $prevPost->slug,
+                'id' => $oldest->id,
+                'title' => $oldest->title,
+                'slug' => $oldest->slug,
             ];
         }
 
@@ -61,12 +63,22 @@ class PostController extends Controller
     public function store(Request $request, Response $response)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title' => 'required',
+            'status' => 'required|in:draft,published'
         ]);
+        $user = $this->user($request);
 
         $data = $request->getParams(['title', 'content']);
-        $data['user_id'] = $this->user($request)->id;
-        $post = Post::create($data);
+        $data['user_id'] = $user->id;
+        /** @var Post $post */
+        $post = Post::newModelInstance($data);
+        $status = $request->getParam('status');
+        $isPublished = ($status === 'published');
+
+        if ($isPublished && $userCanPublish) {
+
+        }
+        $post->requestReview();
 
         return $response->created($post);
     }
@@ -82,10 +94,11 @@ class PostController extends Controller
         /** @var Post $post */
         $post = Post::findOrFail($request->getAttribute('post'));
 
+        /** @var User $user */
         $user = $this->user($request);
 
-        if (!$post->isOwnedBy($user)) {
-            return $response->forbidden('What are you doing? It isn\'t your post.');
+        if ( ! $user->canWrite($post) ) {
+            return $response->forbidden();
         }
 
         $this->validate($request, [

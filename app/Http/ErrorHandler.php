@@ -22,7 +22,7 @@ class ErrorHandler
 
     protected function convertExceptionToResponse(Response $response, \Exception $e)
     {
-        return $response->error(500, $e->getMessage());
+        return $response->error(500, $e->getMessage(), config('app.debug') ? ['traces' => $e->getTrace()] : []);
     }
 
     protected function convertValidationExceptionToResponse(Response $response, $exception)

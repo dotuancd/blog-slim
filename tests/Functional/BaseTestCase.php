@@ -2,9 +2,10 @@
 
 namespace Tests\Functional;
 
+use App\Container;
 use Slim\App;
 use Slim\Http\Request;
-use Slim\Http\Response;
+use App\Http\Response;
 use Slim\Http\Environment;
 
 /**
@@ -28,7 +29,9 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
      * @param string $requestMethod the request method (e.g. GET, POST, etc.)
      * @param string $requestUri the request URI
      * @param array|object|null $requestData the request data
-     * @return \Slim\Http\Response
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Slim\Exception\MethodNotAllowedException
+     * @throws \Slim\Exception\NotFoundException
      */
     public function runApp($requestMethod, $requestUri, $requestData = null)
     {
@@ -51,11 +54,10 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         // Set up a response object
         $response = new Response();
 
-        // Use the application settings
-        $settings = require __DIR__ . '/../../src/settings.php';
-
         // Instantiate the application
-        $app = new App($settings);
+        $container = Container::getInstance();
+
+        $app = new App($container);
 
         // Set up dependencies
         require __DIR__ . '/../../src/dependencies.php';
@@ -71,7 +73,29 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         // Process the application
         $response = $app->process($request, $response);
 
+        $response->getBody()->rewind();
+
         // Return the response
         return $response;
+    }
+
+    protected function post($uri, $data = [])
+    {
+        return $this->runApp("POST", $uri, $data);
+    }
+
+    protected function get($uri, $data = [])
+    {
+        return $this->runApp("GET", $uri, $data);
+    }
+
+    protected function delete($uri, $data = [])
+    {
+        return $this->runApp("DELETE", $uri, $data);
+    }
+
+    protected function put($uri, $data = [])
+    {
+        return $this->runApp("PUT", $uri, $data);
     }
 }

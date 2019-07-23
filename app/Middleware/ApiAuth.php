@@ -26,16 +26,17 @@ class ApiAuth
     {
         /** @var \Slim\Http\Request $request */
         $token = $request->getHeader('Authorization');
+        /** @var Response $response */
         $token = preg_replace('/^Bearer\s/', '', $token) ?: $request->getParam('api_token');
 
         if (!$token) {
-            return Response::unauthorized($response);
+            return $response->unauthorized();
         }
 
         $user = $this->repository->where('api_token', $token)->first();
 
         if (!$user) {
-            return Response::unauthorized($response);
+            return $response->unauthorized();
         }
 
         $request = $request->withAttribute('user', $user);
