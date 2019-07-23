@@ -15,12 +15,11 @@ class AddPublishedAtToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->tinyInteger('status')->default(Post::STATUS_DRAFT);
-            $table->timestamp('published_at')->nullable()->index();
-            $table->timestamp('approved_at')->nullable();
-            $table->unsignedInteger('approved_by')->nullable();
-            $table->foreign('approved_by')->on('users')->reference('id');
-
+            $table->tinyInteger('status')->default(Post::STATUS_DRAFT)->after('content')->index();
+            $table->timestamp('published_at')->nullable()->after('user_id')->index();
+            $table->timestamp('approved_at')->nullable()->after('published_at');
+            $table->unsignedInteger('approved_by')->nullable()->after('approved_at');
+            $table->foreign('approved_by')->on('users')->references('id');
         });
     }
 
@@ -32,6 +31,7 @@ class AddPublishedAtToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
+            $table->dropIndex(['status']);
             $table->dropColumn('status');
 
             $table->dropIndex(['published_at']);

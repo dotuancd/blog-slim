@@ -63,12 +63,22 @@ class PostController extends Controller
     public function store(Request $request, Response $response)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title' => 'required',
+            'status' => 'required|in:draft,published'
         ]);
+        $user = $this->user($request);
 
         $data = $request->getParams(['title', 'content']);
-        $data['user_id'] = $this->user($request)->id;
-        $post = Post::create($data);
+        $data['user_id'] = $user->id;
+        /** @var Post $post */
+        $post = Post::newModelInstance($data);
+        $status = $request->getParam('status');
+        $isPublished = ($status === 'published');
+
+        if ($isPublished && $userCanPublish) {
+
+        }
+        $post->requestReview();
 
         return $response->created($post);
     }

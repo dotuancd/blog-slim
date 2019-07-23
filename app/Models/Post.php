@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Auth\HasPolicy;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\Auth\Contracts\HasPolicy as PolicyContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Post
@@ -16,6 +18,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status_as_text
  * @property User $user
  * @property Carbon published_at
+ * @property int approved_by
+ * @property \Illuminate\Support\Carbon approved_at
+ * @property int status
  *
  * @mixin \Illuminate\Database\Query\Builder|Builder
  * @method static Post|Builder|\Illuminate\Database\Query\Builder forUser(User $user)
@@ -23,11 +28,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Post | Builder | \Illuminate\Database\Query\Builder withUnpublished()
  * @method static Post | Builder | \Illuminate\Database\Query\Builder published()
  */
-class Post extends Model implements HasWritePolicy
+class Post extends Model implements PolicyContract
 {
+    use HasPolicy;
+
     const STATUS_DRAFT = 1;
     const STATUS_UNDER_REVIEW = 3;
     const STATUS_PUBLISHED = 2;
+
+    const ABILITY_APPROVE = 'approve';
+    const ABILITY_PUBLISH = 'publish';
 
     protected $appends = [
         'author'
@@ -137,5 +147,35 @@ class Post extends Model implements HasWritePolicy
     public function oldest()
     {
         return $this->newQuery()->where('published_at', '<', $this->published_at)->latest();
+    }
+
+    public function requestReview()
+    {
+        $this->status = static::STATUS_UNDER_REVIEW;
+        $this->save();
+    }
+
+    public function publish()
+    {
+        $this->status = static::STATUS_PUBLISHED;
+        $this->published_at = $this->freshTimestamp();
+        $this->save();
+    }
+
+    public function approve(User $reviewer)
+    {
+        $this->approved_by = $reviewer->id;
+        $this->approved_at = $this->freshTimestamp();
+        $this->save();
+    }
+
+    public function userCanApprove(User $user)
+    {
+        return $user->isAdmin();
+    }
+
+    public function userCanPublish(User $user)
+    {
+        return $user->isAdmin();
     }
 }
